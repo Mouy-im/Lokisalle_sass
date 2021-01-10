@@ -1,0 +1,4 @@
+# Groupe 1
+User-agent: *
+Allow: /
+Sitemap: https://www.lokisalle.mouyim-gibassier.xyz/sitemap.xml

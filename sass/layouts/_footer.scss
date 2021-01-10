@@ -1,0 +1,18 @@
+footer {
+    p {
+        font-size: 0.9em;
+    }
+    #bas {
+        color: #fff!important;
+    }
+    i {
+        cursor: pointer;
+    }
+}
+
+.retour_scroll {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1;
+}

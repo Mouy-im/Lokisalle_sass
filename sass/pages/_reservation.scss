@@ -1,0 +1,11 @@
+#reservation {
+    .row {
+        justify-content: space-around;
+    }
+    .card-body {
+        h2.card-title {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+    }
+}

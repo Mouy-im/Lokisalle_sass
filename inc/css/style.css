@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 1000px;
+}
+
+h1 {
+  text-align: center;
+  color: #2C3E50;
+  font-family: "Pacifico", cursive;
+  margin: 2% 0%;
+}
+
+p {
+  color: black;
+  font-size: 20px;
+  text-align: justify;
+}
+
+.carte {
+  box-sizing: border-box;
+  border: 1px solid #2C3E50;
+}
+.carte_avis {
+  background-color: whitesmoke;
+  border-radius: 15px;
+  width: 80%;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.conteneur {
+  margin: 0 auto;
+  width: 90%;
+  min-height: 1500px;
+}
+
+.formulaire {
+  width: 50%;
+  margin: 0% auto;
+  min-height: 1000px;
+}
+
+.fa-trash {
+  cursor: pointer;
+}
+
+header {
+  width: 100%;
+}
+header #logo {
+  position: absolute;
+  z-index: 1;
+}
+header .slogan {
+  position: absolute;
+  left: 80px;
+  top: 130px;
+}
+header #banniere_img {
+  opacity: 0.4;
+  width: 100%;
+  height: 200px;
+  z-index: 10;
+}
+
+.scroll_hide {
+  display: none;
+}
+
+ol.breadcrumb {
+  margin-bottom: 0;
+}
+
+footer p {
+  font-size: 0.9em;
+}
+footer #bas {
+  color: #fff !important;
+}
+footer i {
+  cursor: pointer;
+}
+
+.retour_scroll {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1;
+}
+
+#connexion_form {
+  width: 50%;
+  margin: 0% auto;
+}
+#connexion_form #nonmembre {
+  height: 125px;
+}
+
+#inscription_form form {
+  width: 50%;
+  margin: 0% auto;
+}
+
+#reservation .row {
+  justify-content: space-around;
+}
+#reservation .card-body h2.card-title {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+#mdpperdu_form form {
+  width: 50%;
+  margin: 0% auto;
+}
+
+#contact_form form {
+  width: 50%;
+  margin: 0% auto;
+}
+
+#newsletter_form form {
+  width: 50%;
+  margin: 0% auto;
+}
+
+/*# sourceMappingURL=style.css.map */
