@@ -1,14 +1,14 @@
 <?php include_once('../inc/init.inc.php');?>
-<?php include_once("../inc/haut.inc.php");?>
-<?php include_once('../inc/menu.inc.php');
-
+<?php
 if (!internauteEstConnecteEtEstAdmin())
 {
   header('location:../pages/connexion.php');
   exit();
 }
-
 ?>
+<?php include_once("../inc/haut.inc.php");?>
+<?php include_once('../inc/menu.inc.php');?>
+
 <div id="gestion_salle" class="conteneur py-5">
     <h1>Gestion des salles</h1>
     <div class="text-center mb-3">
@@ -57,9 +57,21 @@ if (!empty($_POST))
       die;
     }
 }
+
 //suppression d'une salle
 if(isset($_GET['action']) && $_GET['action'] == 'delete')
 {   
+  //suppression de la photo située dans le dossier images
+  $resultat = $pdo->query("SELECT * FROM salle WHERE id_salle = '$_GET[id]'");
+  $produit_a_supprimer = $resultat->fetch(PDO::FETCH_ASSOC);
+
+  $chemin_photo_a_supprimer = $produit_a_supprimer['photo'];
+  $chemin_photo_a_supprimer = $_SERVER['DOCUMENT_ROOT'].$chemin_photo_a_supprimer;
+  if(!empty($produit_a_supprimer) && file_exists($chemin_photo_a_supprimer))
+  {
+      unlink($chemin_photo_a_supprimer);
+  }
+
    $pdo->query("DELETE FROM salle WHERE id_salle = '$_GET[id]'");
    echo '<div class="alert alert-success" role="alert">Suppression de la salle '.$_GET['id'].' effectuée</div>' ;
       die;
@@ -79,7 +91,7 @@ if (isset($_GET['action']) && ($_GET['action']=='ajout' || $_GET['action']=='edi
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header mx-auto">
-      <h5 class="modal-title text-center">Ajout d'une nouvelle salle</h5>
+      <h5 class="modal-title text-center"><?php if($_GET['action']=='edit') echo 'Modification d\'une salle';else echo 'Ajout d\'une nouvelle salle';?></h5>
     </div>
     <div class="modal-body">
     <form action="" method="post" enctype="multipart/form-data" class="py-5 formulaire">
@@ -129,7 +141,6 @@ if (isset($_GET['action']) && ($_GET['action']=='ajout' || $_GET['action']=='edi
             <option value ="formation"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'formation') echo 'selected';?>>Formation</option>
          </select>
        </div>
-      <i>*Champs requis</i><br>
       <button type="submit" class="btn btn-primary mt-2"><?php 
     if(isset($_GET['action']) && $_GET['action'] == 'edit') echo 'Modifier';else echo'Ajouter'; ?></button>
     </form>
@@ -146,25 +157,18 @@ if (isset($_GET['action']) && $_GET['action']=='affichage') {
           <table class="table table-striped text-center">
             <thead>
                 <tr>
-<?php
-$cols = $pdo->query("SELECT DISTINCT(COLUMN_NAME) as col FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'salle'");
-while ($col = $cols->fetch(PDO::FETCH_ASSOC)) 
-{
-     echo '<th scope="col">'.$col['col'].'</th>';                
-}
-?>
-               <!-- <th scope="col">id_salle</th>
-                <th scope="col">Pays</th>
-                <th scope="col">Ville</th>
-                <th scope="col">Adresse</th>
-                <th scope="col">Code postale</th>
-                <th scope="col">Titre</th>
-                <th scope="col">Description</th>
-                <th scope="col">Photo</th>
-                <th scope="col">Capacité</th>
-                <th scope="col">Catégorie</th>-->
-                <th scope="col">Modifier</th>
-                <th scope="col">Supprimer</th>
+                  <th scope="col">id_salle</th>
+                  <th scope="col">Pays</th>
+                  <th scope="col">Ville</th>
+                  <th scope="col">Adresse</th>
+                  <th scope="col">Code postale</th>
+                  <th scope="col">Titre</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Photo</th>
+                  <th scope="col">Capacité</th>
+                  <th scope="col">Catégorie</th>
+                  <th scope="col">Modifier</th>
+                  <th scope="col">Supprimer</th>
                 </tr>
             </thead>
             <tbody>
@@ -175,18 +179,18 @@ $resultat = $pdo->query('SELECT * FROM salle');
 while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
 {
     echo '<tr>';
-    echo '<td>'.$datas['id_salle'].'</td>';
-    echo '<td>'.$datas['pays'].'</td>';
-    echo '<td>'.$datas['ville'].'</td>';
-    echo '<td>'.$datas['adresse'].'</td>';
-    echo '<td>'.$datas['cp'].'</td>';
-    echo '<td>'.$datas['titre'].'</td>';
-    echo '<td>'.$datas['description'].'</td>';
-    echo '<td><img src="'.$datas['photo'].'" alt="'.$datas['description'].'" style="width:25%;"></td>';
-    echo '<td>'.$datas['capacite'].'</td>';
-    echo '<td>'.$datas['categorie'].'</td>';
-    echo '<td><a href="?action=edit&id='.$datas['id_salle'].'"><i class="fa fa-edit fa-2x"></i></a></td>';
-    echo '<td><a href="?action=delete&id='.$datas['id_salle'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
+    echo '<td class="align-middle">'.$datas['id_salle'].'</td>';
+    echo '<td class="align-middle">'.$datas['pays'].'</td>';
+    echo '<td class="align-middle">'.$datas['ville'].'</td>';
+    echo '<td class="align-middle">'.$datas['adresse'].'</td>';
+    echo '<td class="align-middle">'.$datas['cp'].'</td>';
+    echo '<td class="align-middle">'.$datas['titre'].'</td>';
+    echo '<td class="align-middle">'.$datas['description'].'</td>';
+    echo '<td  class="align-middle" style="width:20%;"><img src="'.$datas['photo'].'" alt="'.$datas['description'].'" style="width:100%;"></td>';
+    echo '<td class="align-middle">'.$datas['capacite'].'</td>';
+    echo '<td class="align-middle">'.$datas['categorie'].'</td>';
+    echo '<td class="align-middle"><a href="?action=edit&id='.$datas['id_salle'].'"><i class="fa fa-edit fa-2x"></i></a></td>';
+    echo '<td class="align-middle"><a href="?action=delete&id='.$datas['id_salle'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
     echo '</tr>';
 }
 ?>

@@ -5,75 +5,99 @@
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/commande/moncompte.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/gestion_avis.php</loc>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/commande/mes_commandes.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/gestion_code_promo.php</loc>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/commande/panier.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/gestion_commande.php</loc>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/commande/plandusite.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/gestion_membre.php</loc>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/femme/femme_categories.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/gestion_newsletter.php</loc>
     <priority>0.90</priority>
   </url>
    <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/femme/femme_produits.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/gestion_produit.php</loc>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/homme/homme_categories.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/gestion_salle.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/admin/statistique.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/cgv.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/ml.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/ml.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/commande.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/connexion.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/contact.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/inscription.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/mdpperdu.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/ml.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/newsletter.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/panier.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/pds.php</loc>
     <priority>0.90</priority>
   </url>
    <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/homme/homme_produits.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/profil.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/recherche.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/reservation_details.php</loc>
     <priority>0.90</priority>
   </url>
    <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/informations/actualite.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/informations/avis.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/informations/cvg.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/informations/faq.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/informations/mentionslegales.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/laboutique/contact.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/laboutique/notrehistoire.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/laboutique/pointdevente.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/laboutique/recrutement.html</loc>
-    <priority>0.90</priority>
-  </url>
-   <url>
-    <loc>https://www.mouyim-gibassier.xyz/pages/laboutique/reservation.html</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/reservation.php</loc>
     <priority>0.90</priority>
   </url>
 </urlset>

@@ -9,19 +9,20 @@ if (!internauteEstConnecte())
   exit();
 }
 
-if(!empty($_POST)){
+if(!empty($_POST['email'])){
   $id = $_SESSION['membre']['id_membre'];
-  $resultat = $pdo->query("SELECT * FROM newsletter WHERE id_membre = '$id'");
  
+  $resultat = $pdo->prepare("SELECT * FROM newsletter WHERE id_membre = ?");
+  $resultat->execute(array($id));
 
-    if ($resultat->rowCount() == 1) 
+    if ($resultat->rowCount() == 0) 
     {
-      debug($resultat->rowCount());
+     
         $statement = $pdo->prepare("INSERT INTO newsletter (id_membre)VALUES (?)");
         $statement->execute(array($id));
-        echo '<h2 class="text-center">Votre inscription a bien été prise en compte</h2>';
+        echo '<div class="alert alert-success text-center" role="alert">Votre inscription a bien été prise en compte</div>';
         die;
-    }elseif($resultat->rowCount() > 1) 
+    }elseif($resultat->rowCount() != 0) 
     {
       $contenu = '<div class="text-center">Vous êtes déjà inscrit à la newsletter</span></div>';
     }else

@@ -1,26 +1,27 @@
 <?php include_once('../inc/init.inc.php');?>
-<?php include_once("../inc/haut.inc.php");?>
-<?php include_once('../inc/menu.inc.php');
-
+<?php
 if (!internauteEstConnecteEtEstAdmin())
 {
   header('location:../pages/connexion.php');
   exit();
 }
-
 ?>
-<div id="reservation" class="conteneur py-5">
+<?php include_once("../inc/haut.inc.php");?>
+<?php include_once('../inc/menu.inc.php');?>
+
+<div id="gestion_membre" class="conteneur py-5">
 
     <h1>Gestion des membres</h1>
     <div class="text-center mb-3">
       <!--LIENS Gestions des membres-->
       <button type="button" class="btn btn-primary mb-3"><a href="?action=ajout">Ajouter un compte administrateur</a></button>
       <button type="button" class="btn btn-primary mb-3"><a href="?action=afficher">Afficher la liste des membres</a></button>
-  
+    </div>
 <?php
 if(!empty($_POST))
 {
-  if (strlen($_POST['pseudo']) <3 || strlen($_POST['pseudo']) > 20) 
+  $verif_caractere = preg_match("#^[a-zA-Z0-9._-]+$#",$_POST['pseudo']);
+  if (!$verif_caractere || strlen($_POST['pseudo']) <3 || strlen($_POST['pseudo']) > 20) 
   {
     $contenu.='Le pseudo doit contenir entre 3 et 20 caractères';
 
@@ -29,19 +30,23 @@ if(!empty($_POST))
     $contenu.='Le mot de passe doit contenir entre 3 et 20 caractères';
   }else 
   {
-    $membre = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
-    $membre2 = $pdo->query("SELECT * FROM membre WHERE email = '$_POST[email]'");
+    $statement = $pdo->prepare("SELECT * FROM membre WHERE pseudo = ?");
+    $membre = $statement->execute(array($_POST['pseudo']));
+   
+    $statement2 = $pdo->prepare("SELECT * FROM membre WHERE email = ?");
+    $membre2 = $statement2->execute(array($_POST['email']));
+   
     // rowCount() retourne le nombre de ligne qui existe dans une table
-    if ($membre->rowCount()>0) 
+    if ($statement->rowCount()>0) 
     {
         $contenu.="Ce pseudo existe déjà";
-    }elseif($membre2->rowCount()>0)
+    }elseif($statement2->rowCount()>0)
     { 
         $contenu.="Il existe déjà un compte avec cet adresse email<br><a href='/pages/mdpperdu.php'>Mot de passe oublié ?</a>";
     }else
     {
         $mdp = md5($_POST['mdp']);
-         //on peut mettre query mais avec exec on peut retourner les valeurs
+        $_POST['adresse'] = addslashes($_POST['adresse']);
         $statement = $pdo->prepare("INSERT INTO membre(pseudo, mdp, nom, prenom, email, sexe, ville, cp, adresse,statut)VALUES (?,'$mdp',?,?,?,?,?,?,?,1)");
         $resultat = $statement->execute(array($_POST['pseudo'],$_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['sexe'],$_POST['ville'],$_POST['cp'],$_POST['adresse']));  
     }   
@@ -108,6 +113,16 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout')
     
 <?php
 } 
+//suppression d'un membre
+if(isset($_GET['action']) && $_GET['action'] == 'delete' )
+{
+
+    $pdelete = $pdo->prepare("DELETE FROM membre WHERE id_membre = ?");
+    $delete = $pdelete->execute(array($_GET['id']));
+    echo '<div class="alert alert-success" role="alert">Suppression du membre '.$_GET['id'].' effectué' ;
+    die;
+}
+
 if (isset($_GET['action']) && $_GET['action'] == 'afficher') 
 {
 
@@ -118,54 +133,42 @@ if (isset($_GET['action']) && $_GET['action'] == 'afficher')
         <table class="table table-striped text-center">
             <thead>
                 <tr>
-<?php
-$cols = $pdo->query("SELECT DISTINCT(COLUMN_NAME) as col FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'membre'");
-while ($col = $cols->fetch(PDO::FETCH_ASSOC)) 
-{
-     echo '<th scope="col">'.$col['col'].'</th>';                
-}
-?>
-                <!--<th scope="col">id_membre</th>
-                <th scope="col">Pseudo</th>
-                <th scope="col">Mdp</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Email</th>
-                <th scope="col">Sexe</th>
-                <th scope="col">Ville</th>
-                <th scope="col">Cp</th>
-                <th scope="col">Adresse</th>
-                <th scope="col">Statut</th>-->
-                <th scope="col">Supprimer</th>
+                  <th scope="col">id_membre</th>
+                  <th scope="col">Pseudo</th>
+                  <th scope="col">Mdp</th>
+                  <th scope="col">Nom</th>
+                  <th scope="col">Prénom</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Sexe</th>
+                  <th scope="col">Ville</th>
+                  <th scope="col">Cp</th>
+                  <th scope="col">Adresse</th>
+                  <th scope="col">Statut</th>
+                  <th scope="col">Supprimer</th>
                 </tr>
             </thead>
             <tbody>
            
-                <?php
-                if(isset($_GET['id']))
-                {
-                    $id = $_GET["id"];
-                    
-                    $delete = $pdo->query("DELETE FROM membre WHERE id_membre = $id ");
-                }
-                $resultat = $pdo->query('SELECT * FROM membre');
-                while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
-                {
-                    echo '<tr>'; 
-                    echo '<td>'.$datas['id_membre'].'</td>';
-                    echo '<td>'.$datas['pseudo'].'</td>';
-                    echo '<td>'.$datas['mdp'].'</td>';
-                    echo '<td>'.$datas['nom'].'</td>';
-                    echo '<td>'.$datas['prenom'].'</td>';
-                    echo '<td>'.$datas['email'].'</td>';
-                    echo '<td>'.$datas['sexe'].'</td>';
-                    echo '<td>'.$datas['ville'].'</td>';
-                    echo '<td>'.$datas['cp'].'</td>';
-                    echo '<td>'.$datas['adresse'].'</td>';
-                    echo '<td>'.$datas['statut'].'</td>';
-                    echo '<td><a href="?id='.$datas['id_membre'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
-                   
-                    echo '</tr>';
+<?php
+
+$resultat = $pdo->query('SELECT * FROM membre');
+while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
+{
+    echo '<tr>'; 
+    echo '<td>'.$datas['id_membre'].'</td>';
+    echo '<td>'.$datas['pseudo'].'</td>';
+    echo '<td>'.$datas['mdp'].'</td>';
+    echo '<td>'.$datas['nom'].'</td>';
+    echo '<td>'.$datas['prenom'].'</td>';
+    echo '<td>'.$datas['email'].'</td>';
+    echo '<td>'.$datas['sexe'].'</td>';
+    echo '<td>'.$datas['ville'].'</td>';
+    echo '<td>'.$datas['cp'].'</td>';
+    echo '<td>'.$datas['adresse'].'</td>';
+    echo '<td>'.$datas['statut'].'</td>';
+    echo '<td><a href="?action=delete&id='.$datas['id_membre'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
+    
+    echo '</tr>';
 ?>
 <?php               
                 }
@@ -175,7 +178,7 @@ while ($col = $cols->fetch(PDO::FETCH_ASSOC))
         </table>
     </div>
 </div>
-
+</div>
 
 
 

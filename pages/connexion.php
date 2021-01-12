@@ -1,19 +1,19 @@
 <?php include_once('../inc/init.inc.php');?>
-<?php include_once("../inc/haut.inc.php");?>
-<?php include_once('../inc/menu.inc.php');?>
 <?php
-
-
+if (isset($_GET['action']) && $_GET['action'] == 'deconnexion')
+  {
+    session_destroy();
+  }
 if($_POST){
-
 //on selectionne toutes les lignes(info) dont le pseudo est égal au pseudo posté
 //ici la table va récupérer 0 ou 1 ligne
-$resultat = $pdo->query("SELECT * FROM membre WHERE email = '$_POST[email]'");
+$resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
 
     if ($resultat->rowCount() != 0){
         $membre = $resultat->fetch(PDO::FETCH_ASSOC);
-        
         $mdp = md5($_POST['mdp']);
+        $_POST['pseudo'] = htmlentities($_POST['pseudo'],ENT_QUOTES);
+        $_POST['mdp'] = htmlentities($_POST['mdp'],ENT_QUOTES);
         if($mdp==$membre['mdp'])
         {
             $_SESSION['membre']['nom']=$membre['nom'];
@@ -26,18 +26,19 @@ $resultat = $pdo->query("SELECT * FROM membre WHERE email = '$_POST[email]'");
             $_SESSION['membre']['id_membre']=$membre['id_membre'];
             $_SESSION['membre']['ville']=$membre['ville'];
             $_SESSION['membre']['statut']=$membre['statut'];
-            
-            header('Location:profil.php');
-            //exit(); 
+            header('Location: profil.php');
+            exit; 
         }else {
             $contenu.='<div class="alert alert-danger" role="alert">Mot de passe incorrect</div>';
         }
     }else{
-        $contenu.='<div class="alert alert-danger" role="alert">Adresse email incorrecte</div>';
+        $contenu.='<div class="alert alert-danger" role="alert">Pseudo incorrecte</div>';
     }
 
 }
 ?>
+<?php include_once("../inc/haut.inc.php");?>
+<?php include_once('../inc/menu.inc.php');?>
 
 <div id="connexion_form" class="formulaire py-5">
   <h1>Connexion</h1>
@@ -54,15 +55,10 @@ $resultat = $pdo->query("SELECT * FROM membre WHERE email = '$_POST[email]'");
     <div class="tab-pane fade show active" id="membre" role="tabpanel" aria-labelledby="membre-tab">
    
       <form action="" method="post" class="py-5">
-         <!--<div class="mb-3">
+         <?php echo $contenu; ?>
+        <div class="mb-3">
             <label for="pseudo" class="form-label">Pseudo</label>
             <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Votre pseudo">
-        </div>-->
-        
-        <?php echo $contenu; ?>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="adresse@email.com">
         </div>
         <div class="mb-3">
           <label for="mdp" class="form-label">Mot de passe</label>

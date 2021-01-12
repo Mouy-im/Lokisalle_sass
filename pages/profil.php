@@ -6,27 +6,58 @@
 <?php
 
 if (internauteEstConnecte())
-{
+{  
+    $id_membre = $_SESSION['membre']['id_membre'];
+    $commande = $pdo->query("SELECT * FROM commande WHERE id_membre = $id_membre");
+    $data = $commande->fetch(PDO::FETCH_ASSOC);
 
-    echo '<h2 class="text-center">Bonjour '.$_SESSION['membre']['pseudo'].'</h2>';
-    echo '<div class="row">';
-    echo '<div class="col-12 col-md-6">';
-    echo '<h3 class="h5">Voici vos informations personnelles :</h3>';
-    echo 'Compte : ';
-    if (isset($_SESSION['membre']['statut']) && $_SESSION['membre']['statut'] == 1) echo 'Admin'; else echo 'User'; echo '<br>';
-    echo 'Civilité : ';
-    if (isset($_SESSION['membre']['sexe']) && $_SESSION['membre']['sexe'] == 'm') echo 'Monsieur'; else echo 'Madame'; echo '<br>';
-    echo 'Nom : '.$_SESSION['membre']['nom'].'<br>';
-    echo 'Prénom : '.$_SESSION['membre']['prenom'].'<br>';
-    echo 'Email : '.$_SESSION['membre']['email'].'<br>';
-    echo 'Adresse : '.$_SESSION['membre']['adresse'].'<br>';
-    echo 'Code postal : '.$_SESSION['membre']['cp'].'<br>';
-    echo 'Adresse : '.$_SESSION['membre']['ville'].'<br>';
-    echo '<a href="?action=modif">Modifier/compléter mes informations</a>';
-    echo '</div>';
-    echo '</div>';
+    
+?>
+    <h2 class="text-center mb-3">Bonjour <?php echo $_SESSION['membre']['pseudo'] ?></h2>
+        <div class="row">
+            <div class="col-12 col-md-5 bg-light p-3 mx-auto">
+            <h3 class="h5">Voici vos informations personnelles :</h3>
+            <hr>
+            Compte : <?php if (isset($_SESSION['membre']['statut']) && $_SESSION['membre']['statut'] == 1) echo 'Admin'; else echo 'User';?><br>
+            Civilité : <?php if (isset($_SESSION['membre']['sexe']) && $_SESSION['membre']['sexe'] == 'm') echo 'Monsieur'; else echo 'Madame';?><br>
+            Nom : <?php echo $_SESSION['membre']['nom'] ?><br>
+            Prénom : <?php echo $_SESSION['membre']['prenom'] ?><br>
+            Email : <?php echo $_SESSION['membre']['email'] ?><br>
+            Adresse : <?php echo $_SESSION['membre']['adresse'] ?><br>
+            Code postal : <?php echo $_SESSION['membre']['cp'] ?><br>
+            Adresse : <?php echo $_SESSION['membre']['ville'] ?><br>
+            <a href="?action=modif">Modifier/compléter mes informations</a>
+            </div>
+
+            <?php if ($commande->rowCount() != 0) 
+            {
+                $date = new dateTime($data['date']);
+            ?>
+            <div class="col-12 col-md-5 bg-light p-3 mx-auto">
+            <h3 class="h5">Vos dernières commandes :</h3>
+            <table class="table table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>Numéro de suivi</th>
+                        <th>date</th>
+                        <th>Fature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $data['id_commande'] ?></td>
+                        <td><?php echo date_format($date,'d-m-Y') ?></td>
+                        <td><a href =""><i class="fa fa-file"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <?php
+            } 
+            ?>
+        </div>
+<?php
 }
-
 if (!empty($_POST)) 
 {
         $membre_id = $_SESSION['membre']['id_membre'];
@@ -45,14 +76,11 @@ if (!empty($_POST))
             $_SESSION['membre']['ville']=$membre['ville'];
             $_SESSION['membre']['id_membre']=$membre['id_membre'];        
             die;
-    
 }
-
 
 if (isset($_GET['action']) && $_GET['action'] == 'modif') {
     //modification/complément d'information
-   
-    
+     
 ?>
 <div class="row">
     <div class="col-12 col-md-6">
@@ -113,20 +141,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'modif') {
                 echo $_SESSION['membre']['adresse'];
             } ?></textarea>
             </div>
-            
             <button type="submit" class="btn btn-primary mt-2">Valider</button>
         </form>
     </div>
 </div>
 <?php
 } 
-
 ?>
 </div>
-
-
-
-
 
 <?php
 require_once("../inc/bas.inc.php");

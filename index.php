@@ -53,12 +53,12 @@
       <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda tempora amet nisi porro aliquid pariatur unde fugiat sequi tempore corrupti odit officiis doloribus nostrum architecto laudantium deleniti neque quia, quam provident rerum consectetur alias. Laborum unde blanditiis ab dolorum maxime, praesentium optio amet vitae nostrum, obcaecati non cumque facere et aliquam, suscipit perferendis voluptate ratione perspiciatis! Suscipit cupiditate reiciendis perspiciatis possimus blanditiis, porro distinctio assumenda. Ea est asperiores nostrum adipisci aut, sint accusantium! Recusandae, non nobis voluptates in voluptatum nemo cumque nihil ab porro odit at repellendus quidem quas cum ipsum alias distinctio impedit pariatur itaque assumenda laudantium similique voluptatibus?</p>
       <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda tempora amet nisi porro aliquid pariatur unde fugiat sequi tempore corrupti odit officiis doloribus nostrum architecto laudantium deleniti neque quia, quam provident rerum consectetur alias. Laborum unde blanditiis ab dolorum maxime, praesentium optio amet vitae nostrum, obcaecati non cumque facere et aliquam, suscipit perferendis voluptate ratione perspiciatis! Suscipit cupiditate reiciendis perspiciatis possimus blanditiis, porro distinctio assumenda. Ea est asperiores nostrum adipisci aut, sint accusantium! Recusandae, non nobis voluptates in voluptatum nemo cumque nihil ab porro odit at repellendus quidem quas cum ipsum alias distinctio impedit pariatur itaque assumenda laudantium similique voluptatibus?</p>
     </div>
-    <div class="col-12 col-md-4 my-5">
+    <div class="col-12 col-md-3 my-5 mx-auto">
         <h2 class="h4 text-center">Nos 3 dernières offres</h2>
         <div class="row mx-2">
 <?php
 
-$resultat = $pdo->query('SELECT * FROM salle LIMIT 3');
+$resultat = $pdo->query('SELECT * FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 ORDER BY salle.id_salle DESC LIMIT 3');
 while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
 {
  

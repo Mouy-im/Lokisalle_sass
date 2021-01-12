@@ -1,14 +1,14 @@
 <?php include_once('../inc/init.inc.php');?>
-<?php include_once("../inc/haut.inc.php");?>
-<?php include_once('../inc/menu.inc.php');
-
+<?php
 if (!internauteEstConnecteEtEstAdmin())
 {
   header('location:../pages/connexion.php');
   exit();
 }
-
 ?>
+<?php include_once("../inc/haut.inc.php");?>
+<?php include_once('../inc/menu.inc.php');?>
+
 <div id="gestion_codepromo" class="conteneur py-5">
     <h1>Gestion des codes promo</h1>
     <div class="text-center mb-3">
@@ -27,13 +27,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'affichage') {
         <table class="table table-striped text-center">
             <thead>
                 <tr>
-<?php
-$cols = $pdo->query("SELECT COLUMN_NAME as col FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'promotion'");
-    while ($col = $cols->fetch(PDO::FETCH_ASSOC)) {
-        echo '<th scope="col">'.$col['col'].'</th>';
-    } ?>              
-                <th scope="col">Modifier</th>
-                <th scope="col">Supprimer</th>
+                    <th scope="col">id_promo</th>
+                    <th scope="col">Code promo</th>
+                    <th scope="col">Réduction</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Supprimer</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,8 +63,8 @@ if (!empty($_POST)) {
     }
     //modification
     if ($_GET['action']=='edit') {
-        $statement = $pdo->prepare("UPDATE promotion SET code_promo = ?, reduction = ? WHERE id_promo = '$_GET[id]'");
-        $resultat = $statement->execute(array($_POST['code_promo'],$_POST['reduction']));
+        $statement = $pdo->prepare("UPDATE promotion SET code_promo = ?, reduction = ? WHERE id_promo = ?");
+        $resultat = $statement->execute(array($_POST['code_promo'],$_POST['reduction'],$_GET['id']));
         echo '<div class="alert alert-success " role="alert">Modification du code promo '.$_POST['id_promo'].' effectué</div>';
         die;
     }
@@ -75,15 +73,17 @@ if (!empty($_POST)) {
 //suppression d'un code promo
 if(isset($_GET['action']) && $_GET['action'] == 'delete')
 {   
-   $pdo->query("DELETE FROM promotion WHERE id_promo = '$_GET[id]'");
-   echo '<div class="alert alert-danger" role="alert">Suppression du code promo '.$_GET['id'].' effectué</div>' ;
+    $statement = $pdo->prepare("DELETE FROM promotion WHERE id_promo = ?");
+    $resultat = $statement->execute(array($_GET['id']));
+    echo '<div class="alert alert-danger" role="alert">Suppression du code promo '.$_GET['id'].' effectué</div>' ;
       die;
 }
 
 //Formulaire ajout ou modification d'un code promo
 if (isset($_GET['action']) && ($_GET['action']=='ajout' || $_GET['action']=='edit')) {
     if ($_GET['action']=='edit') {
-        $promos = $pdo->query("SELECT * FROM promotion WHERE id_promo = '$_GET[id]'");
+        $statement = $pdo->prepare("SELECT * FROM promotion WHERE id_promo = ?");
+        $resultat = $statement->execute(array($_GET['id']));
         $promo = $promos->fetch(PDO::FETCH_ASSOC);
     } ?>
   

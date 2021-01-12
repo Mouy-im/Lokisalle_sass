@@ -7,7 +7,8 @@
 
 if($_POST)
 {
-  if (strlen($_POST['pseudo']) <3 || strlen($_POST['pseudo']) > 20) 
+  $verif_caractere = preg_match("#^[a-zA-Z0-9._-]+$#",$_POST['pseudo']);
+  if (!$verif_caractere || strlen($_POST['pseudo']) <3 || strlen($_POST['pseudo']) > 20) 
   {
     $contenu.='Le pseudo doit contenir entre 3 et 20 caractères';
 
@@ -28,7 +29,7 @@ if($_POST)
     }else
     {
         $mdp = md5($_POST['mdp']);
-         //on peut mettre query mais avec exec on peut retourner les valeurs
+        $_POST['adresse'] = addslashes($_POST['adresse']);
         $statement = $pdo->prepare("INSERT INTO membre(pseudo, mdp, nom, prenom, email, sexe, ville, cp, adresse,statut)VALUES (?,'$mdp',?,?,?,?,?,?,?,0)");
         $resultat = $statement->execute(array($_POST['pseudo'],$_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['sexe'],$_POST['ville'],$_POST['cp'],$_POST['adresse']));
         $_SESSION['membre']['nom']=$_POST['nom'];

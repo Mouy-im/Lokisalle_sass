@@ -6,17 +6,24 @@ $(function() {
 
     window.onscroll = function() {
 
-        if (document.documentElement.scrollTop != 0) {
+            if (document.documentElement.scrollTop != 0) {
 
-            document.querySelector('.retour_haut').classList.add('retour_scroll');
-            document.querySelector('#banniere').classList.add('scroll_hide');
+                document.querySelector('.retour_haut').classList.add('retour_scroll');
+                document.querySelector('#banniere').classList.add('scroll_hide');
 
 
 
-        } else {
-            document.querySelector('#banniere').classList.remove('scroll_hide');
-            document.querySelector('.retour_haut').classList.remove('retour_scroll');
+            } else {
+                document.querySelector('#banniere').classList.remove('scroll_hide');
+                document.querySelector('.retour_haut').classList.remove('retour_scroll');
+            }
+
         }
+        //ajout du calendrier
+        // $(".datepicker").datepicker({ inline: true });
+    $('.datepicker').datetimepicker({
+        showOn: "button",
+        showSecond: true
+    });
 
-    };
 })

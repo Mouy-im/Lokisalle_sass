@@ -1,6 +1,22 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php include_once("../inc/haut.inc.php");?>
 <?php include_once('../inc/menu.inc.php');?>
+<?php
+if (isset($_POST['email']))
+{
+  $resultat = $pdo->query("SELECT * FROM membre WHERE email = '$_POST[email]'");
+  $data = $resultat->fetch(PDO::FETCH_ASSOC);
+  if ($resultat->rowCount() != 0) 
+  {
+      //mailto:
+      echo '<a href=/pages/reinit_mdp.php?action=new_mdp&id='.$data['id_membre'].'>Réinitialiser mon mot de passe</a>';
+  }else
+  {
+    echo 'Vous n\'avez pas de compte.<br><a href="/pages/inscription.php">Créer un compte ici</a>';
+  }
+}
+?>
+
 <div id="mdpperdu_form" class="py-5">
   <h1>Mot de passe perdu</h1>
  
