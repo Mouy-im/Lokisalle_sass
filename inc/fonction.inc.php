@@ -47,27 +47,30 @@ function creationDuPanier()
     }
 }
 
-function ajouterProduitDansPanier($titre, $id_produit, $quantite, $prix, $photo)
+function ajouterProduitDansPanier($id_produit, $titre, $photo, $ville, $capacite,$date_arrivee,$date_depart,$prix)
 {
     creationDuPanier();
     //quand on a déjà le produit dans le panier
-    if (isset($_SESSION['panier'][$id_produit])) {
+   /* if (isset($_SESSION['panier'][$id_produit])) {
         $new_qte = intval($_SESSION['panier'][$id_produit]['quantite']);
         $new_qte += $quantite;
         $_SESSION['panier'][$id_produit]['quantite'] = $new_qte;
         
     // quand ajoute le produit pour la toute premiere connexion dans le panier on entre dans le else
     } else 
-    {
+    {*/
         $nouveauproduit = array();
-        $nouveauproduit['titre'] = $titre;
         $nouveauproduit['id_produit'] = $id_produit;
-        $nouveauproduit['quantite'] = $quantite;
-        $nouveauproduit['prix']= $prix;
+        $nouveauproduit['titre'] = $titre;
         $nouveauproduit['photo'] = $photo;
+        $nouveauproduit['ville'] = $ville;
+        $nouveauproduit['capacite']= $capacite;
+        $nouveauproduit['date_arrivee']= $date_arrivee;
+        $nouveauproduit['date_depart']= $date_depart;
+        $nouveauproduit['prix']= $prix;
 
         $_SESSION['panier'][$id_produit] = $nouveauproduit;
-    }
+   // }
 }
 
 function montantTotal()
@@ -77,37 +80,44 @@ function montantTotal()
         $total = 0;
 
         foreach ($_SESSION['panier'] as $key => $value) {
-            $total += $value['quantite']*$value['prix'];
+            $total += $value['prix'];//HT
+            $total_ttc = $total*1.196;
         }
-        //permet d'arrondir à 2 chiffres après la virgule
-        return round($total, 2);
+        return $total_ttc;
     }
 }
 
+function reduction($promo)
+{
+   $res =  montantTotal()*(1+$promo)/100;
+   return $res;
+}
 
 function affichage_form_avis()
 {
-    echo '<form action="" method="post" class="pb-5">';
-    echo '<div class="mb-3">';
-    echo 'Note : <select class="form-select" name="note" required="required">
-        <option selected>-- Choisir une note --</option>';
-    for ($i=0; $i<=10; $i++) {
-        echo '<option value="'.$i.'">'.$i.'</option>';
-    }
-    echo  '</select>';
-    echo '</div>';
-    echo '<div class="mb-3">
-        Ajouter un commentaire :<textarea type="text" class="form-control mt-2"  name="commentaire" placeholder="Votre commentaire" rows="10" required="required"></textarea>
-    </div>';
-    if (internauteEstConnecte()) {
-        echo '<button type="submit" class="btn btn-primary">Soumettre</button>';
-    } else {
-        echo '<a href="/pages/connexion.php" class="btn btn-primary mr-5">Se connecter pour écrire un commentaire</a>';
-    }
-    echo '</form>';
-    echo '</div>';
-    echo '</div>';
-    echo '</div>';
+?>
+   <form action="" method="post" class="pb-5">
+        <div class="mb-3">
+            Note : 
+            <select class="form-select" name="note" required="required">
+                <option selected>-- Choisir une note --</option>
+                <?php    
+                for ($i=0; $i<=10; $i++) {
+                    echo '<option value="'.$i.'">'.$i.'</option>';
+                }?>
+            </select>
+        </div>
+        <div class="mb-3">
+            Ajouter un commentaire :
+            <textarea type="text" class="form-control mt-2"  name="commentaire" placeholder="Votre commentaire" rows="10" required="required"></textarea>
+        </div>
+        <?php
+        if (internauteEstConnecte()) {
+            echo '<button type="submit" class="btn btn-primary">Soumettre</button>';
+        } else {
+            echo '<a href="/pages/connexion.php" class="btn btn-primary mr-5">Se connecter pour écrire un commentaire</a>';
+        }?>
+    </form>
+<?php
 }
-
 ?>

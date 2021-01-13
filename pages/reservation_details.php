@@ -3,7 +3,7 @@
 <?php include_once('../inc/menu.inc.php');?>
 
 <div id="reservation_details" class="conteneur py-5">
-<a href="/pages/reservation.php"><i class="fa fa-arrow-circle-left fa-3x pr-2"></i>Retour réservation</a>
+    <a href="/pages/reservation.php"><i class="fa fa-arrow-circle-left fa-3x pr-2"></i>Retour réservation</a>
 
 <?php
 if (isset($_GET)) {
@@ -54,7 +54,7 @@ if (isset($_GET)) {
         </div>
 <!-- Avis -->
         <div id="avis" class="col-12 col-md-8">
-        <h2 class="h4 text-center">Avis</h2>
+            <h2 class="h4 text-center">Avis</h2>
             <div class="row">
                 <div class="col-12 col-md-6">
                     <?php
@@ -97,12 +97,19 @@ if (!empty($_POST['note']) && !empty($_POST['commentaire'])) {
             </div>
         </div>
     </div>
-    xamp
     <?php
     //affichage du bouton ajouter au panier
-    if (internauteEstConnecte()) {
-        echo '<div class="text-center"><a href="#" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
-    } else {
+    if (internauteEstConnecte()) 
+    {
+        if(isset($_SESSION['panier'][$_GET['id']]))
+        {
+          echo '<div class="text-center"><a href="#" class="btn btn-primary ml-2" Onclick="'."return(confirm('Ce produit est déjà dans le panier'))".'"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
+        }else
+        {
+            echo '<div class="text-center"><a href="/pages/panier.php?ajout_panier&id='.$_GET['id'].'" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
+        }
+    } else 
+    {
         echo '<div class="text-center"><a href="#" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>(Se connecter)</a></div>';
     }
 }

@@ -28,7 +28,7 @@
           <?php if (internauteEstConnecte()) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Mon compte';
+              Mon compte
               <?php if (internauteEstConnecteEtEstAdmin()) echo ' - Admin';?>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,7 +63,7 @@
             echo '<a href="/pages/panier.php" class="nav-link btn btn-primary mx-2"><i class="fa fa-shopping-basket"></i>';
                 if (isset($_SESSION['panier'])) 
                   {
-                    echo '<span class="badge bg-dark">'.count($_SESSION['panier']['id_produit']).'</span></a>';
+                    echo '<span class="badge bg-dark">'.count($_SESSION['panier']).'</span></a>';
                   }else{
                     echo '<span class="badge bg-dark">0</span>';
                   }

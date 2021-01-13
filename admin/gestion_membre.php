@@ -21,11 +21,11 @@ if (!internauteEstConnecteEtEstAdmin())
 if(!empty($_POST))
 {
   $verif_caractere = preg_match("#^[a-zA-Z0-9._-]+$#",$_POST['pseudo']);
-  if (!$verif_caractere || strlen($_POST['pseudo']) <3 || strlen($_POST['pseudo']) > 20) 
+  if (!$verif_caractere || strlen($_POST['pseudo']) <=3 || strlen($_POST['pseudo']) > 20) 
   {
     $contenu.='Le pseudo doit contenir entre 3 et 20 caractères';
 
-  }elseif (strlen($_POST['mdp']) <3 || strlen($_POST['mdp']) > 20) 
+  }elseif (strlen($_POST['mdp']) <=3 || strlen($_POST['mdp']) > 20) 
   {
     $contenu.='Le mot de passe doit contenir entre 3 et 20 caractères';
   }else 

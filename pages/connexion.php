@@ -4,7 +4,28 @@ if (isset($_GET['action']) && $_GET['action'] == 'deconnexion')
   {
     session_destroy();
   }
-if($_POST){
+
+if(isset($_COOKIE['pseudo']) && isset($_COOKIE['mdp']))
+{
+  $resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_COOKIE[pseudo]'");
+  $membre = $resultat->fetch(PDO::FETCH_ASSOC);
+  $_SESSION['membre']['nom']=$membre['nom'];
+  $_SESSION['membre']['prenom']=$membre['prenom'];
+  $_SESSION['membre']['sexe']=$membre['sexe'];
+  $_SESSION['membre']['cp']=$membre['cp'];
+  $_SESSION['membre']['email']=$membre['email'];
+  $_SESSION['membre']['pseudo']=$membre['pseudo'];
+  $_SESSION['membre']['adresse']=$membre['adresse'];
+  $_SESSION['membre']['id_membre']=$membre['id_membre'];
+  $_SESSION['membre']['ville']=$membre['ville'];
+  $_SESSION['membre']['statut']=$membre['statut'];
+  
+  header('Location: profil.php');
+  exit; 
+}
+
+if(!empty($_POST))
+{
 //on selectionne toutes les lignes(info) dont le pseudo est égal au pseudo posté
 //ici la table va récupérer 0 ou 1 ligne
 $resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
@@ -26,6 +47,13 @@ $resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
             $_SESSION['membre']['id_membre']=$membre['id_membre'];
             $_SESSION['membre']['ville']=$membre['ville'];
             $_SESSION['membre']['statut']=$membre['statut'];
+            if(!empty($_POST['check_remind'])){
+              $pseudo = $_POST['pseudo'];
+              $mdp = $_POST['mdp'];
+              $dateExpiration = time() + 1 * 60 * 60 * 24 * 365;
+              setcookie('pseudo',$pseudo,$dateExpiration);
+              setcookie('mdp',$mdp,$dateExpiration);
+            }
             header('Location: profil.php');
             exit; 
         }else {

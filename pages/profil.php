@@ -9,9 +9,8 @@ if (internauteEstConnecte())
 {  
     $id_membre = $_SESSION['membre']['id_membre'];
     $commande = $pdo->query("SELECT * FROM commande WHERE id_membre = $id_membre");
-    $data = $commande->fetch(PDO::FETCH_ASSOC);
-
-    
+ 
+   
 ?>
     <h2 class="text-center mb-3">Bonjour <?php echo $_SESSION['membre']['pseudo'] ?></h2>
         <div class="row">
@@ -28,7 +27,7 @@ if (internauteEstConnecte())
             Adresse : <?php echo $_SESSION['membre']['ville'] ?><br>
             <a href="?action=modif">Modifier/compléter mes informations</a>
             </div>
-
+            <?php $data = $commande->fetch(PDO::FETCH_ASSOC); ?>
             <?php if ($commande->rowCount() != 0) 
             {
                 $date = new dateTime($data['date']);
@@ -45,6 +44,7 @@ if (internauteEstConnecte())
                 </thead>
                 <tbody>
                     <tr>
+                     
                         <td><?php echo $data['id_commande'] ?></td>
                         <td><?php echo date_format($date,'d-m-Y') ?></td>
                         <td><a href =""><i class="fa fa-file"></i></a></td>

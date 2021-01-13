@@ -8,8 +8,8 @@ if (isset($_POST['email']))
   $data = $resultat->fetch(PDO::FETCH_ASSOC);
   if ($resultat->rowCount() != 0) 
   {
-      //mailto:
-      echo '<a href=/pages/reinit_mdp.php?action=new_mdp&id='.$data['id_membre'].'>Réinitialiser mon mot de passe</a>';
+      mail("$_POST[email]","Réinitialisation de votre mot de passe","<a href=/pages/reinit_mdp.php?action=new_mdp&id=$data[id_membre]>Réinitialiser mon mot de passe</a>");
+    
   }else
   {
     echo 'Vous n\'avez pas de compte.<br><a href="/pages/inscription.php">Créer un compte ici</a>';

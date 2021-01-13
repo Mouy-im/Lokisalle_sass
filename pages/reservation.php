@@ -6,7 +6,7 @@
     <div class="row">
   <?php
 
-$resultat = $pdo->query('SELECT * FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1');
+$resultat = $pdo->query('SELECT * FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW()');
 while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
 {
    
@@ -23,7 +23,13 @@ while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
    echo '<a href="/pages/reservation_details.php?id='.$datas['id_produit'].'" class="btn btn-primary my-2">Voir plus</a>';
    if (internauteEstConnecte()) 
    {
-      echo '<a href="/pages/connexion.php" class="btn btn-primary mx-2"><i class="fa fa-shopping-basket"></i></a>';
+      if(isset($_SESSION['panier'][$datas['id_produit']]))
+      {
+         echo '<a href="#" class="btn btn-primary ml-2" Onclick="'."return(confirm('Ce produit est déjà dans le panier'))".'"><i class="fa fa-shopping-basket"></i></a>';
+      }else
+      {
+         echo '<a href="/pages/panier.php?ajout_panier&id='.$datas['id_produit'].'" class="btn btn-primary ml-2"><i class="fa fa-shopping-basket"></i></a>';
+      }
    }else
    {
       echo '<br><a href="/pages/connexion.php" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>(Se connecter)</a>';
