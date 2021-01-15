@@ -5,6 +5,7 @@
 
 body {
     min-height: 1000px;
+    font-size: 1.2em;
 }
 
 h1 {
@@ -22,7 +23,7 @@ p {
 
 .carte {
     &_avis {
-        background-color: whitesmoke;
+        background-color: white;
         border-radius: 15px;
         width: 80%;
         padding: 20px;
@@ -44,4 +45,19 @@ p {
 
 .fa-trash {
     cursor: pointer;
+}
+
+.message_error {
+    color: red;
+    font-size: 0.9em;
+}
+
+.ville {
+    color: $color-ville;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.card-body {
+    line-height: 2em;
 }

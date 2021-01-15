@@ -11,7 +11,7 @@ if(!empty($_POST))
     {
         $newmdp = md5($_POST['new_mdp2']);
         $resultat = $pdo->exec("UPDATE membre SET mdp = '$newmdp' WHERE id_membre = '$_GET[id]'");
-        echo 'Mot de passe réinitialisé<br><a href="/pages/connexion.php">Connectez-vous ici</a>';
+        echo '<div><p class="text-center">Mot de passe réinitialisé<br><a href="/pages/connexion.php">Connectez-vous ici</a></p></div>';
         die;
 
     }else
@@ -23,6 +23,7 @@ if(!empty($_POST))
 if(isset($_GET['action']) && $_GET['action'] == 'new_mdp')
 {
 ?>
+
 <form method="post" action=""> 
     <div class="mb-3">
       <label for="new_mdp" class="form-label">Nouveau mot de passe*</label>

@@ -89,7 +89,7 @@ function montantTotal()
 
 function reduction($promo)
 {
-   $res =  montantTotal()*(1+$promo)/100;
+   $res =  montantTotal()*(1-$promo/100);
    return $res;
 }
 

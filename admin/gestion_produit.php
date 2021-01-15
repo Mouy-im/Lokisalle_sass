@@ -79,15 +79,15 @@ if (isset($_GET['action']) && ($_GET['action']=='ajout' || $_GET['action']=='edi
       </div>
       <div class="mb-3">
          <label for="date_arrivee" class="form-label">Date d'arrivée :</label>
-        <input type="text" id="date_arrivee" class="datepicker form-control" name="date_arrivee" min="<?php echo date('Y/m/d'); ?>" placeholder="aaaa/mm/jj" value="<?php if (isset($produit['date_arrivee'])) echo $produit['date_arrivee']; ?>">
+        <input type="text" id="date_arrivee" class="datetimepicker form-control" name="date_arrivee" placeholder="AAAA/mm/jj - HH:mm" value="<?php if (isset($produit['date_arrivee'])) echo $produit['date_arrivee']; ?>">
       </div>
       <div class="mb-3">
          <label for="date_depart" class="form-label">Date de départ :</label>
-         <input type="text" id="date_depart" class="datepicker form-control" name="date_depart" min="<?php if(!empty($_POST['date_arrivee'])) echo $_POST['date_arrivee'] ?>" placeholder="aaaa/mm/jj" value="<?php if (isset($produit['date_depart'])) echo $produit['date_depart']; ?>">
+         <input type="text" id="date_depart" class="datetimepicker form-control" name="date_depart" placeholder="AAAA/mm/jj - HH:mm" value="<?php if (isset($produit['date_depart'])) echo $produit['date_depart']; ?>">
       </div>
       <div class="mb-3">
          <label for="prix" class="form-label">Prix :</label><br>
-         <input type="text" id="prix" class="form-control" name="prix" placeholder="prix" value="<?php if (isset($produit['prix'])) echo $produit['prix']; ?>"> €
+         <input type="text" id="prix" class="form-control" name="prix" placeholder="prix" value="<?php if (isset($produit['prix'])) echo $produit['prix']; ?>">
       </div>
       <div class="mb-3">
           <select id="id_promo" name="id_promo" class="form-select">
@@ -118,11 +118,38 @@ if (isset($_GET['action']) && $_GET['action']=='affichage') {
             <thead>
                 <tr>
                   <th scope="col">id_produit</th>
-                  <th scope="col">Date d'arrivée</th>
-                  <th scope="col">Date de départ</th>
+                  <th scope="col">
+                    <div class="dropdown">
+                      <span class="dropdown-toggle" id="drop_date_arrivee" data-bs-toggle="dropdown" aria-expanded="false">Date d'arrivée
+                      </span>
+                      <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="drop_date_arrivee">
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=date_a_asc">Trier par date croissante</a></li>
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=date_a_desc">Trier par date décroissante</a></li>
+                      </ul>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="dropdown">
+                      <span class="dropdown-toggle" id="drop_date_depart" data-bs-toggle="dropdown" aria-expanded="false">Date de départ
+                      </span>
+                      <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="drop_date_depart">
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=date_d_asc">Trier par date croissante</a></li>
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=date_d_desc">Trier par date décroissante</a></li>
+                      </ul>
+                    </div>
+                  </th>
                   <th scope="col">id_salle</th>
                   <th scope="col">id_promo</th>
-                  <th scope="col">Prix</th>
+                  <th scope="col">
+                    <div class="dropdown">
+                      <span class="dropdown-toggle" id="drop_prix" data-bs-toggle="dropdown" aria-expanded="false">Prix
+                      </span>
+                      <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="drop_prix">
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=prix_asc">Trier par prix croissant</a></li>
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=prix_desc">Trier par prix décroissant</a></li>
+                      </ul>
+                    </div>
+                  </th>
                   <th scope="col">État</th>
                   <th scope="col">Modifier</th>
                   <th scope="col">Supprimer</th>
@@ -131,22 +158,44 @@ if (isset($_GET['action']) && $_GET['action']=='affichage') {
             <tbody>
            
 <?php
-$resultat = $pdo->query('SELECT * FROM  produit');
-while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
+if(isset($_GET['trie']) && $_GET['trie'] == 'prix_asc')
 {
-    echo '<tr>';
-    echo '<td class="align-middle">'.$datas['id_produit'].'</td>';
-    echo '<td class="align-middle">'.$datas['date_arrivee'].'</td>';
-    echo '<td class="align-middle">'.$datas['date_depart'].'</td>';
-    echo '<td class="align-middle">'.$datas['id_salle'].'</td>';
-    echo '<td class="align-middle">'.$datas['id_promo'].'</td>';
-    echo '<td class="align-middle">'.$datas['prix'].'</td>';
-    echo '<td class="align-middle">'.$datas['etat'].'</td>';
-    echo '<td class="align-middle"><a href="?action=edit&id='.$datas['id_produit'].'"><i class="fa fa-edit fa-2x"></i></a></td>';
-    echo '<td class="align-middle"><a href="?action=delete&id='.$datas['id_produit'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
-    echo '</tr>';
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by prix asc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'prix_desc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by prix desc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'date_a_asc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by date_arrivee asc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'date_a_desc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by date_arrivee desc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'date_d_asc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by date_depart asc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'date_d_desc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by date_depart desc');
+}else
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM  produit');
 }
-?>
+
+    while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
+    {
+        echo '<tr>';
+        echo '<td class="align-middle">'.$datas['id_produit'].'</td>';
+        echo '<td class="align-middle">'.$datas['new_date_arrivee'].'</td>';
+        echo '<td class="align-middle">'.$datas['new_date_depart'].'</td>';
+        echo '<td class="align-middle">'.$datas['id_salle'].'</td>';
+        echo '<td class="align-middle">'.$datas['id_promo'].'</td>';
+        echo '<td class="align-middle">'.$datas['prix'].'</td>';
+        echo '<td class="align-middle">'.$datas['etat'].'</td>';
+        echo '<td class="align-middle"><a href="?action=edit&id='.$datas['id_produit'].'"><i class="fa fa-edit fa-2x"></i></a></td>';
+        echo '<td class="align-middle"><a href="?action=delete&id='.$datas['id_produit'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
+        echo '</tr>';
+    }
+    ?>
             </tbody>
         </table>
     </div>

@@ -21,9 +21,15 @@ $(function() {
         }
         //ajout du calendrier
         // $(".datepicker").datepicker({ inline: true });
-    $('.datepicker').datetimepicker({
+
+    $('.datetimepicker').datetimepicker({
+
         showOn: "button",
-        showSecond: true
+        showSecond: true,
+        minDate: 0
     });
+
+
+    $('#date_recherche').datepicker({ minDate: 0 });
 
 })

@@ -19,13 +19,30 @@ if (!internauteEstConnecteEtEstAdmin())
                     <tr>
                         <th scope="col">id_commande</th>
                         <th scope="col">id_membre</th>
-                        <th scope="col">Montant</th>
+                        <th scope="col">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle" id="drop_montant" data-bs-toggle="dropdown" aria-expanded="false">Montant
+                                </span>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="drop_montant">
+                                    <li><a class="dropdown-item" href="/admin/gestion_commande.php?trie=montant_asc">Trier par ordre croissant</a></li>
+                                    <li><a class="dropdown-item" href="/admin/gestion_commande.php?trie=montant_desc">Trier par ordre décroissant</a></li>
+                                </ul>
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
                 $total = 0;
-                $resultat = $pdo->query('SELECT * FROM commande');
+                if(isset($_GET['trie']) && $_GET['trie'] == 'montant_asc')
+                {
+                    $resultat = $pdo->query('SELECT * FROM commande ORDER by montant asc');
+                }elseif (isset($_GET['trie']) && $_GET['trie'] == 'montant_desc')
+                {
+                    $resultat = $pdo->query('SELECT * FROM commande ORDER by montant desc');
+                }else{
+                    $resultat = $pdo->query('SELECT * FROM commande');
+                }
                     while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
                     {
                     ?>
@@ -69,7 +86,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'afficher')
             </thead>
             <tbody>
             <?php
+           
                 $resultat = $pdo->query("SELECT commande.*, membre.pseudo AS pseudo, produit.*, details_commande.*, salle.ville AS ville FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]'");
+            
                     while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
                     {
                     ?>
@@ -85,7 +104,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'afficher')
                         </tr>
                     <?php
                     } 
-                    ?>
+                   ?>
             </tbody>
         </table>
     </div>  

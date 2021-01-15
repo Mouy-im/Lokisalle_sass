@@ -13,12 +13,11 @@ if (!internauteEstConnecteEtEstAdmin())
     <h1>Gestion des codes promo</h1>
     <div class="text-center mb-3">
 
+ <!--LIENS Gestions des codes promo-->
+        <button type="button" class="btn btn-primary mb-3"><a href="?action=affichage">Affichage des codes promo</a></button>
+        <button type="button" class="btn btn-primary mb-3"><a href="?action=ajout">Ajout d'un code promo</a></button>
+    </div>
 <?php
- //--- LIENS Gestions codes promo ---//
-$contenu .= '<a href="?action=affichage">Affichage des codes promo</a><br>';
-$contenu .= '<a href="?action=ajout">Ajout d\'un code promo</a><br><br><hr><br>';
-echo $contenu;
-
 //Affichage des codes promo
 if (isset($_GET['action']) && $_GET['action'] == 'affichage') {
     ?>

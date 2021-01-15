@@ -20,6 +20,8 @@ if (!internauteEstConnecteEtEstAdmin())
 //Ajout ou modification d'une salle via le formulaire
 if (!empty($_POST)) 
 {
+    $_POST['adresse'] = addslashes($_POST['adresse']);
+    $_POST['description'] = addslashes($_POST['description']);
     $photo_bdd = "";
     //cas d'une modification : on récupère l'ancienne photo si elle n'est pas modifiée
     if (isset($_GET['action']) && $_GET['action'] == 'edit') 
@@ -85,10 +87,9 @@ if (isset($_GET['action']) && ($_GET['action']=='ajout' || $_GET['action']=='edi
     $salles = $pdo->query("SELECT * FROM salle WHERE id_salle = '$_GET[id]'");
     $salle = $salles->fetch(PDO::FETCH_ASSOC);
   }
-  
-   ?>
+  ?>
      
-<div class="modal-dialog">
+<div>
   <div class="modal-content">
     <div class="modal-header mx-auto">
       <h5 class="modal-title text-center"><?php if($_GET['action']=='edit') echo 'Modification d\'une salle';else echo 'Ajout d\'une nouvelle salle';?></h5>
@@ -136,9 +137,9 @@ if (isset($_GET['action']) && ($_GET['action']=='ajout' || $_GET['action']=='edi
       <div class="mb-3">
           <select id="categorie" name="categorie" class="form-select">
             <option value ="-" disabled selected>Catégorie</option>
-            <option value ="reunion"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'reunion') echo 'selected';?>>Réunion</option>
-            <option value ="bureau"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'bureau') echo 'selected';?>>Bureau</option>
-            <option value ="formation"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'formation') echo 'selected';?>>Formation</option>
+            <option value ="Réunion"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'Réunion') echo 'selected';?>>Réunion</option>
+            <option value ="Bureau"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'Bureau') echo 'selected';?>>Bureau</option>
+            <option value ="Formation"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'Formation') echo 'selected';?>>Formation</option>
          </select>
        </div>
       <button type="submit" class="btn btn-primary mt-2"><?php 
@@ -178,6 +179,8 @@ if (isset($_GET['action']) && $_GET['action']=='affichage') {
 $resultat = $pdo->query('SELECT * FROM salle');
 while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
 {
+  $datas['description'] = stripslashes($datas['description']);
+  $datas['adresse'] = stripslashes($datas['adresse']);
     echo '<tr>';
     echo '<td class="align-middle">'.$datas['id_salle'].'</td>';
     echo '<td class="align-middle">'.$datas['pays'].'</td>';
@@ -185,8 +188,8 @@ while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
     echo '<td class="align-middle">'.$datas['adresse'].'</td>';
     echo '<td class="align-middle">'.$datas['cp'].'</td>';
     echo '<td class="align-middle">'.$datas['titre'].'</td>';
-    echo '<td class="align-middle">'.$datas['description'].'</td>';
-    echo '<td  class="align-middle" style="width:20%;"><img src="'.$datas['photo'].'" alt="'.$datas['description'].'" style="width:100%;"></td>';
+    echo '<td class="align-middle text-justify">'.substr($datas['description'],0,100).' [...]</td>';
+    echo '<td  class="align-middle" style="width:20%;"><img src="'.$datas['photo'].'" alt="'.$datas['titre'].'" style="width:100%;"></td>';
     echo '<td class="align-middle">'.$datas['capacite'].'</td>';
     echo '<td class="align-middle">'.$datas['categorie'].'</td>';
     echo '<td class="align-middle"><a href="?action=edit&id='.$datas['id_salle'].'"><i class="fa fa-edit fa-2x"></i></a></td>';

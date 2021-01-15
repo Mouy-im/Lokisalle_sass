@@ -43,9 +43,8 @@
                 <li><a class="dropdown-item" href="/admin/gestion_newsletter.php">Envoyer la newsletter</a></li>
                 <?php } ?>
                 <li><a class="dropdown-item" href="/pages/profil.php">Mon profil</a></li>
-                <li><a class="dropdown-item" href="/pages/commande.php">Mes commandes</a></li>
                 <li><a class="dropdown-item" href="/pages/panier.php">Mon panier</a></li>
-                <li><a class="dropdown-item" href="connexion.php?action=deconnexion">Me deconnecter</a></li>
+                <li><a class="dropdown-item" href="/pages/connexion.php?action=deconnexion">Me deconnecter</a></li>
             </ul>
           </li>
           <?php } else { ?>
@@ -60,16 +59,17 @@
         <?php
         if (internauteEstConnecte()) 
           {
-            echo '<a href="/pages/panier.php" class="nav-link btn btn-primary mx-2"><i class="fa fa-shopping-basket"></i>';
-                if (isset($_SESSION['panier'])) 
+            echo '<a href="/pages/panier.php" class="nav-link btn btn-primary mx-2"><i class="fa fa-shopping-basket"></i> ';
+             
+                  if(isset($_SESSION['panier'])) 
                   {
                     echo '<span class="badge bg-dark">'.count($_SESSION['panier']).'</span></a>';
                   }else{
                     echo '<span class="badge bg-dark">0</span>';
                   }
                   echo '</a>;';                     
-                }   
-                ?>
+          }   
+          ?>
     </div>
   </nav>
 </header>

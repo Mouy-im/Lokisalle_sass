@@ -32,19 +32,21 @@ if($_POST)
         $_POST['adresse'] = addslashes($_POST['adresse']);
         $statement = $pdo->prepare("INSERT INTO membre(pseudo, mdp, nom, prenom, email, sexe, ville, cp, adresse,statut)VALUES (?,'$mdp',?,?,?,?,?,?,?,0)");
         $resultat = $statement->execute(array($_POST['pseudo'],$_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['sexe'],$_POST['ville'],$_POST['cp'],$_POST['adresse']));
+        $res = $pdo->query("SELECT id_membre FROM membre WHERE pseudo = '$_POST[pseudo]'");
+        $data=$res->fetch(PDO::FETCH_ASSOC);
         $_SESSION['membre']['nom']=$_POST['nom'];
         $_SESSION['membre']['prenom']=$_POST['prenom'];
         $_SESSION['membre']['sexe']=$_POST['sexe'];
         $_SESSION['membre']['cp']=$_POST['cp'];
         $_SESSION['membre']['email']=$_POST['email'];
         $_SESSION['membre']['ville']=$_POST['ville'];
-        $_SESSION['membre']['id_membre']=$_POST['id_membre'];
+        $_SESSION['membre']['id_membre']=$data['id_membre'];
         $_SESSION['membre']['pseudo']=$_POST['pseudo'];
         $_SESSION['membre']['adresse']=$_POST['adresse'];
         $_SESSION['membre']['statut']=0;
         echo'<div class="text-center">';
         echo '<h2>Bienvenue '.$_POST['prenom'].'</h2>'
-        .'Votre compte a été créé avec succès !<br>Vous recevrez un email de confirmation à l\'adresse suivante : '.$_POST['email'].'<br>'; 
+        .'Votre compte a été créé avec succès !<br>'; 
         echo '<a href="../index.php">Retour à la page d\'accueil</a>';
         echo'</div>';
         die();

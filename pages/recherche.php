@@ -1,4 +1,18 @@
 <?php include_once('../inc/init.inc.php');?>
+<?php 
+if (!empty($_POST['mots_cles']))
+{
+    $mc = $_POST['mots_cles'];
+    $dateExpiration = time() + 1 * 60 * 60 * 24 * 365;
+    setcookie('mots_cles',$mc,$dateExpiration);
+}
+if (!empty($_POST['date']))
+{
+    $d = $_POST['date'];
+    $dateExpiration = time() + 1 * 60 * 60 * 24 * 365;
+    setcookie('date',$d,$dateExpiration);
+    
+}?>
 <?php include_once("../inc/haut.inc.php");?>
 <?php include_once('../inc/menu.inc.php');?>
 
@@ -13,7 +27,7 @@
                     <div class="col-6 text-center">
                         <div class="mb-3 text-center">
                             <label for="date" class="form-label">À la date du :</label>
-                            <input type="text" id="date" class="datepicker form-control" name="date" placeholder="aaaa/mm/jj">
+                            <input type="text" id="date_recherche" class="form-control" name="date" placeholder="AAAA/mm/jj">
                         </div>
                     </div>
                     <div class="col-6 text-center">
@@ -31,23 +45,24 @@
             </form>
         </div>
     </div>
-   
-<?php
+    <?php
 if (!empty($_POST)) {
     if (!empty($_POST['mots_cles']) && !empty($_POST['date'])) {
         $mc = $_POST['mots_cles'];
-        $resultat = $pdo->query("SELECT * FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1  AND produit.date_arrivee > NOW() AND (salle.ville LIKE '%$mc%'|| salle.categorie LIKE '%$mc%' || salle.pays LIKE '%$mc%' || salle.adresse LIKE '%$mc%' || salle.cp LIKE '%$mc%' || salle.titre LIKE '%$mc%'|| salle.description LIKE '%$mc%' || salle.capacite LIKE '%$mc%' || produit.prix LIKE '%$mc%') AND produit.date_arrivee >= '$_POST[date]'");
+        $resultat = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%T') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%T') AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1  AND produit.date_arrivee > NOW() AND (salle.ville LIKE '%$mc%'|| salle.categorie LIKE '%$mc%' || salle.pays LIKE '%$mc%' || salle.adresse LIKE '%$mc%' || salle.cp LIKE '%$mc%' || salle.titre LIKE '%$mc%'|| salle.description LIKE '%$mc%' || salle.capacite LIKE '%$mc%' || produit.prix LIKE '%$mc%') AND produit.date_arrivee >= '$_POST[date]'");
+        include('../inc/affichage_nb_ligne.inc.php');
         include('../inc/affichage_filtre.inc.php');
     } elseif (!empty($_POST['date'])) {
-        $resultat = $pdo->query("SELECT * FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW() AND produit.date_arrivee >= '$_POST[date]'");
+        $resultat = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%T') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%T') AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW() AND produit.date_arrivee >= '$_POST[date]'");
+        include('../inc/affichage_nb_ligne.inc.php');
         include('../inc/affichage_filtre.inc.php');
     } elseif (!empty($_POST['mots_cles'])) {
         $mc = $_POST['mots_cles'];
-        $resultat = $pdo->query("SELECT * FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW()  AND (salle.ville LIKE '%$mc%'|| salle.categorie LIKE '%$mc%' || salle.pays LIKE '%$mc%' || salle.adresse LIKE '%$mc%' || salle.cp LIKE '%$mc%' || salle.titre LIKE '%$mc%'|| salle.description LIKE '%$mc%' || salle.capacite LIKE '%$mc%' || produit.prix LIKE '%$mc%')");
+        $resultat = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%T') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%T') AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW()  AND (salle.ville LIKE '%$mc%'|| salle.categorie LIKE '%$mc%' || salle.pays LIKE '%$mc%' || salle.adresse LIKE '%$mc%' || salle.cp LIKE '%$mc%' || salle.titre LIKE '%$mc%'|| salle.description LIKE '%$mc%' || salle.capacite LIKE '%$mc%' || produit.prix LIKE '%$mc%')");
+        include('../inc/affichage_nb_ligne.inc.php');
         include('../inc/affichage_filtre.inc.php');
     }
 }
-
-?>     
+?>  
 </div>   
 <?php include_once('../inc/bas.inc.php');?>

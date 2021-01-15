@@ -1,11 +1,6 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php include_once("../inc/haut.inc.php");?>
-<?php include_once('../inc/menu.inc.php');?>
-<div id="panier" class="conteneur py-5">
-  <h1>Panier</h1>
-  <div class="row">
-  <?php
-
+<?php
 //Vider le panier
 if (isset($_GET['action']) && $_GET['action'] == 'vider_panier') {
   unset($_SESSION['panier']);
@@ -16,15 +11,19 @@ if (isset($_GET['id_suppr'])) {
   unset($_SESSION['panier'][$_GET['id_suppr']]);
 }
 
-  if (isset($_GET['ajout_panier'])) 
-  {
-      $resultat = $pdo->query("SELECT * FROM produit,salle WHERE produit.id_salle=salle.id_salle AND produit.id_produit = '$_GET[id]'");
-    
-      $produit = $resultat->fetch(PDO::FETCH_ASSOC);
-      //debug($produit['titre']);
-      //die;
-      ajouterProduitDansPanier($produit['id_produit'], $produit['titre'], $produit['photo'], $produit['ville'], $produit['capacite'], $produit['date_arrivee'], $produit['date_depart'], $produit['prix']);
-  }?>
+if (isset($_GET['ajout_panier'])) 
+{
+    $resultat = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y %T') AS new_date_arrivee,date_format(date_depart,'%d/%m/%Y %T') AS new_date_depart,produit.*,salle.* FROM produit,salle WHERE produit.id_salle=salle.id_salle AND produit.id_produit = '$_GET[id]'");
+  
+    $produit = $resultat->fetch(PDO::FETCH_ASSOC);
+    //debug($produit['titre']);
+    //die;
+    ajouterProduitDansPanier($produit['id_produit'], $produit['titre'], $produit['photo'], $produit['ville'], $produit['capacite'], $produit['new_date_arrivee'], $produit['new_date_depart'], $produit['prix']);
+}?>
+<?php include_once('../inc/menu.inc.php');?>
+<div id="panier" class="conteneur py-5">
+  <h1>Panier</h1>
+  <div class="row">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -55,7 +54,7 @@ if (isset($_GET['id_suppr'])) {
           <tr>
             <th class="align-middle text-center" scope="row"><?php echo $value['id_produit'] ?></th>
             <td class="align-middle text-center" style="width:1%;"><?php echo $value['titre'] ?></td>
-            <td class="align-middle text-center" style="width:20%;"><a href="<?php echo '/reservation_details.php?id='.$value['id_produit'] ?>'"><img src="<?php echo $value['photo'] ?>"alt="<?php echo $value['ville'] ?>" width="100%"></a></td>
+            <td class="align-middle text-center" style="width:20%;"><a href="<?php echo '/pages/reservation_details.php?id='.$value['id_produit']?>"><img src="<?php echo $value['photo'] ?>"alt="<?php echo $value['ville'] ?>" width="100%"></a></td>
             <td class="align-middle text-center"><?php echo $value['ville'] ?></td>
             <td class="align-middle text-center"><?php echo $value['capacite'] ?></td>
             <td class="align-middle text-center"><?php echo $value['date_arrivee'] ?></td>
@@ -69,10 +68,10 @@ if (isset($_GET['id_suppr'])) {
                 $data = $codepromo->fetch(PDO::FETCH_ASSOC);
                 if ($codepromo->rowcount() !=0 && $data['id_produit']==$key) 
                 {
-                
                   echo '<strong>Remise : '.$_POST['codepromo'].' - '.$data['reduction'] .'%</strong>';
-               
-               
+                }elseif($codepromo->rowcount() == 0)
+                {
+                  $message = 'Le code promo n\'est pas valide';
                 }
             }?>
               </td>
@@ -104,7 +103,7 @@ if (isset($_GET['id_suppr'])) {
               </tr>
               <tr>
                 <th scope="col" class="text-center" colspan="8">Montant TTC après remise :</th>
-                <th scope="col" class="text-center" colspan="2"><?php echo round(reduction($data['reduction']),2);?>€</th>
+                <th scope="col" class="text-center" colspan="2"><?php echo number_format(reduction($data['reduction']),2);?>€</th>
               </tr>
                 <?php
               }
@@ -120,9 +119,14 @@ if (isset($_GET['id_suppr'])) {
         <label for="cgv" class="form-label">J'accepte les conditions générales de vente <a href="/pages/cgv.php">(voir)</a>
         <input type="checkbox" name="cgv" id="cgv" required><br>
       </div>
-      <label for="codepromo" class="form-label">Utiliser un code promo
-      <input type="text" class="form-control" name="codepromo" id="codepromo">
-      <input type="submit" class="btn btn-secondary" value="Valider le code promo">
+      Utiliser un code promo<br>
+      <div class="input-group col-3 px-0">
+        <input type="text" name="codepromo" id="codepromo" class="form-control" placeholder="Votre code promo" aria-label="" aria-describedby="basic-addon1">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-outline-secondary" type="button">Valider</button>
+        </div>
+      </div>
+      <p class="message_error"><?php if (!empty($_POST['codepromo'])) echo $message?> </p>
       <div class="my-3">
         <input type="submit" class="btn btn-primary" value="Payer">
       </div>

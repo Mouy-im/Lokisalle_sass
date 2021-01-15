@@ -3,12 +3,14 @@
 <?php include_once('../inc/menu.inc.php');?>
 
 <div id="reservation_details" class="conteneur py-5">
-    <a href="/pages/reservation.php"><i class="fa fa-arrow-circle-left fa-3x pr-2"></i>Retour réservation</a>
-
+<!--    <a href="/pages/recherche.php"><i class="fa fa-arrow-circle-left fa-3x pr-2"></i>Retour recherche</a>-->
 <?php
 if (isset($_GET)) {
-    $salle = $pdo->query("SELECT * FROM salle, produit WHERE salle.id_salle = produit.id_salle AND produit.id_produit LIKE $_GET[id]");
-    $datas = $salle->fetch(PDO::FETCH_ASSOC); ?>
+    $salle = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%T') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%T') AS heure_depart,salle.* FROM salle, produit WHERE salle.id_salle = produit.id_salle AND produit.id_produit = '$_GET[id]'");
+    $datas = $salle->fetch(PDO::FETCH_ASSOC); 
+    $datas['description'] = stripslashes($datas['description']);
+    $datas['adresse'] = stripslashes($datas['adresse']);
+    ?>
     <h1 class="pb-0 mb-0"><?php echo $datas['titre'] ?></h1>
     <div class="row">
         <div class="col-12 text-center mb-5">
@@ -24,61 +26,63 @@ if (isset($_GET)) {
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-12 col-md-3">
+        <div class="col-10 mx-auto">
+            <div class="row bg-light p-5">
+                <div class="col-12 col-md-5">
                     <img src="<?php echo $datas['photo']?>" class="card-img-top" alt="'<?php echo $datas['titre']?>">
                 </div>
-                <div class="col-12 col-md-9">
-                Description : <?php echo $datas['description'] ?><br>Capacité :  <?php echo $datas['capacite']?> personnes<br>Catégorie : <?php echo $datas['categorie']?>
+                <div class="col-12 col-md-7">
+                <p>
+                    <strong>Description : </strong><?php echo $datas['description'] ?><br><br>
+                    <strong>Capacité :  </strong><?php echo $datas['capacite']?> personnes<br><br>
+                    <strong>Catégorie : </strong><?php echo $datas['categorie']?><br>
+                </p>
                 </div>
             </div>
         </div>
     </div>
  <!-- Informations complémentaires -->
     <div class="row mt-5">
-        <div class="col-12 col-md-4">
-            <div class="col-12">
-                <h2 class="h4 text-center">Informations complémentaires</h2>
-                Pays : <?php echo $datas['pays'] ?><br>
-                Ville : <?php echo $datas['ville'] ?><br>
-                Adresse : <?php echo $datas['adresse'] ?><br>
-                Cp : <?php echo $datas['cp'] ?><br>
-                Date d'arrivée : <?php echo $datas['date_arrivee'] ?> <br>
-                Date de départ : <?php echo $datas['date_depart'] ?> <br>
-                Prix : <?php echo $datas['prix'] ?> €*<br>
-                <em>*Ce prix est hors taxes</em><br>
-                Accès : <br>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.7019296386375!2d2.435313316145011!3d48.84482397928618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e672a3399ef36d%3A0x3000b2a1a3c6d510!2s10%20Avenue%20de%20Paris%2C%2094300%20Vincennes!5e0!3m2!1sfr!2sfr!4v1609708712237!5m2!1sfr!2sfr" width="350" height="200" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        <div class="col-12 col-md-6">
+            <div class="col-10 mx-auto bg-light p-5">
+                <h2 class="h4 text-center"><strong>Informations complémentaires</strong></h2>
+                <p>
+                    <strong>Pays : </strong><?php echo $datas['pays'] ?><br>
+                    <strong>Ville : </strong><?php echo $datas['ville'] ?><br>
+                    <strong>Adresse : </strong><?php echo $datas['adresse'] ?><br>
+                    <strong>Code postal : </strong><?php echo $datas['cp'] ?><br>
+                    <strong>Date d'arrivée : </strong><?php echo $datas['new_date_arrivee'].' à '.$datas['heure_arrivee']?> <br>
+                    <strong>Date de départ : </strong><?php echo $datas['new_date_depart'].' à '.$datas['heure_depart'] ?> <br>
+                    <strong>Prix : </strong><?php echo $datas['prix'] ?> €*<br>
+                    <em>*Ce prix est hors taxes</em><br>
+                    <strong>Accès : </strong><br>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.7019296386375!2d2.435313316145011!3d48.84482397928618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e672a3399ef36d%3A0x3000b2a1a3c6d510!2s10%20Avenue%20de%20Paris%2C%2094300%20Vincennes!5e0!3m2!1sfr!2sfr!4v1609708712237!5m2!1sfr!2sfr" width="350" height="200" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </p>
             </div>
         </div>
 <!-- Avis -->
-        <div id="avis" class="col-12 col-md-8">
-            <h2 class="h4 text-center">Avis</h2>
-            <div class="row">
-                <div class="col-12 col-md-6">
+        <div id="avis" class="col-12 col-md-6">
+            <div class="col-10 mx-auto bg-light p-5">
+                <h2 class="h4 text-center"><strong>Avis</strong></h2>
                     <?php
-                   $avis = $pdo->query("SELECT avis.*,membre.pseudo as pseudo FROM avis LEFT JOIN membre ON avis.id_membre = membre.id_membre WHERE avis.id_salle = $datas[id_salle]");
-    while ($avis_datas = $avis->fetch(PDO::FETCH_ASSOC)) {
-        $date = new DateTime($avis_datas['date']);
-        echo '<div class="my-3  carte_avis">';
-        echo  'pseudo : '.$avis_datas['pseudo'].'<br>';
-        echo 'Le '.date_format($date, 'd-m-Y').' à '.date_format($date, 'h:m').'<br>';
-        echo 'Note : '.$avis_datas['note'].'/10<br>';
-        echo 'Commentaire : '.$avis_datas['commentaire'].'<br>';
-        echo '</div>';
-    } ?>
-                </div>
-<?php
-//Ajout d'un avis dans la bbd
-if (!empty($_POST['note']) && !empty($_POST['commentaire'])) {
-    $id_session = $_SESSION['membre']['id_membre'];
-    $statement = $pdo->prepare("INSERT INTO avis(id_membre, id_salle, commentaire, note, date)VALUES ($id_session,?,?,?,NOW())");
-    $resultat = $statement->execute(array($datas['id_salle'],$_POST['commentaire'],$_POST['note']));
-}
-    //Affichage du formulaire de dépot d'un avis ?>
-                <div class="col-12 col-md-6">
+                    $avis = $pdo->query("SELECT avis.*,membre.pseudo as pseudo FROM avis LEFT JOIN membre ON avis.id_membre = membre.id_membre WHERE avis.id_salle = $datas[id_salle]");
+                    while ($avis_datas = $avis->fetch(PDO::FETCH_ASSOC)) {
+                        $date = new DateTime($avis_datas['date']);
+                        echo '<div class="my-3  carte_avis">';
+                        echo  'pseudo : '.$avis_datas['pseudo'].'<br>';
+                        echo 'Le '.date_format($date, 'd-m-Y').' à '.date_format($date, 'h:m').'<br>';
+                        echo 'Note : '.$avis_datas['note'].'/10<br>';
+                        echo 'Commentaire : '.$avis_datas['commentaire'].'<br>';
+                        echo '</div>';
+                    }?>
     <?php
+    //Ajout d'un avis dans la bbd
+    if (!empty($_POST['note']) && !empty($_POST['commentaire'])) {
+        $id_session = $_SESSION['membre']['id_membre'];
+        $statement = $pdo->prepare("INSERT INTO avis(id_membre, id_salle, commentaire, note, date)VALUES ($id_session,?,?,?,NOW())");
+        $resultat = $statement->execute(array($datas['id_salle'],$_POST['commentaire'],$_POST['note']));
+    }
+    //Affichage du formulaire de dépot d'un avis si membre
     if (isset($_SESSION['membre'])) {
         $id_session = $_SESSION['membre']['id_membre'];
         $membre = $pdo->query("SELECT * FROM `avis`WHERE id_membre = $id_session");
@@ -93,7 +97,7 @@ if (!empty($_POST['note']) && !empty($_POST['commentaire'])) {
     } else {
         affichage_form_avis();
     } ?>
-                </div>
+                  
             </div>
         </div>
     </div>
@@ -103,17 +107,47 @@ if (!empty($_POST['note']) && !empty($_POST['commentaire'])) {
     {
         if(isset($_SESSION['panier'][$_GET['id']]))
         {
-          echo '<div class="text-center"><a href="#" class="btn btn-primary ml-2" Onclick="'."return(confirm('Ce produit est déjà dans le panier'))".'"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
+            echo '<div class="text-center my-5"><a href="#" class="btn btn-primary ml-2" Onclick="'."return(confirm('Ce produit est déjà dans le panier'))".'"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
         }else
         {
-            echo '<div class="text-center"><a href="/pages/panier.php?ajout_panier&id='.$_GET['id'].'" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
+            echo '<div class="text-center my-5"><a href="/pages/panier.php?ajout_panier&id='.$_GET['id'].'" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
         }
     } else 
     {
-        echo '<div class="text-center"><a href="#" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>(Se connecter)</a></div>';
+        echo '<div class="text-center my-5"><a href="#" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>(Se connecter)</a></div>';
     }
 }
 ?>
+<!--Autres suggestions-->
+<?php 
+if (isset($_COOKIE['mots_cles']) || isset($_COOKIE['date'])) 
+{?>
+<div class="row mt-3">
+    <div class="col-12">
+        <h2 class="h4 text-center">Autres suggestions</h2>
+    </div>
+</div>
+<?php
+}
+?>
+<?php
 
+if (isset($_COOKIE['mots_cles']) && isset($_COOKIE['date'])) 
+{
+    $mc = $_COOKIE['mots_cles'];
+    $md = $_COOKIE['date'];
+    $resultat = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%T') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%T') AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1  AND produit.date_arrivee > NOW() AND (salle.ville LIKE '%$mc%'|| salle.categorie LIKE '%$mc%' || salle.pays LIKE '%$mc%' || salle.adresse LIKE '%$mc%' || salle.cp LIKE '%$mc%' || salle.titre LIKE '%$mc%'|| salle.description LIKE '%$mc%' || salle.capacite LIKE '%$mc%' || produit.prix LIKE '%$mc%') AND produit.date_arrivee >= '$md' LIMIT 3");
+    include('../inc/affichage_filtre.inc.php');
+} elseif (isset($_COOKIE['date'])) {
+    $md = $_COOKIE['date'];
+    $resultat = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%T') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%T') AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW() AND produit.date_arrivee >= '$md' LIMIT 3");
+    include('../inc/affichage_filtre.inc.php');
+} elseif (isset($_COOKIE['mots_cles'])) {
+    $mc = $_COOKIE['mots_cles'];
+    $resultat = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%T') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%T') AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW()  AND (salle.ville LIKE '%$mc%'|| salle.categorie LIKE '%$mc%' || salle.pays LIKE '%$mc%' || salle.adresse LIKE '%$mc%' || salle.cp LIKE '%$mc%' || salle.titre LIKE '%$mc%'|| salle.description LIKE '%$mc%' || salle.capacite LIKE '%$mc%' || produit.prix LIKE '%$mc%') LIMIT 3");
+    include('../inc/affichage_filtre.inc.php');
+}
+  
+?>
 </div>
 <?php include_once('../inc/bas.inc.php');?>
