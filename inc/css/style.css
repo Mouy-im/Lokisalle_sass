@@ -5,7 +5,7 @@
 
 body {
   min-height: 1000px;
-  font-size: 1.2em;
+  font-size: clamp(20px, 0.8em, 1em);
 }
 
 h1 {
@@ -24,7 +24,7 @@ p {
 .carte_avis {
   background-color: white;
   border-radius: 15px;
-  width: 80%;
+  width: 100%;
   padding: 20px;
   margin: 0 auto;
 }
@@ -57,7 +57,17 @@ p {
 }
 
 .card-body {
-  line-height: 2em;
+  line-height: 1.3em;
+}
+
+input[type=text] {
+  padding: 1.2em;
+  font-size: 1em;
+}
+
+h2.card-title {
+  font-size: 1.5em;
+  font-family: "Pacifico", cursive;
 }
 
 header {
@@ -69,8 +79,10 @@ header #logo {
 }
 header .slogan {
   position: absolute;
-  left: 80px;
-  top: 130px;
+  left: 85px;
+  top: 110px;
+  font-family: "Pacifico", cursive;
+  color: #465869;
 }
 header #banniere_img {
   opacity: 0.4;
@@ -85,6 +97,14 @@ header #banniere_img {
 
 ol.breadcrumb {
   margin-bottom: 0;
+}
+
+.fa-shopping-basket {
+  font-size: 1.3em;
+}
+
+.badge {
+  font-size: 1em;
 }
 
 footer p {
@@ -110,6 +130,11 @@ footer i {
 }
 #connexion_form #nonmembre {
   height: 125px;
+}
+@media (max-width: 800px) {
+  #connexion_form {
+    width: 90%;
+  }
 }
 
 #inscription_form form {
@@ -138,6 +163,15 @@ footer i {
 #newsletter_form form {
   width: 50%;
   margin: 0% auto;
+}
+
+#image_index {
+  width: 100%;
+}
+
+#facture {
+  height: 500px;
+  padding-top: 80px;
 }
 
 /*# sourceMappingURL=style.css.map */

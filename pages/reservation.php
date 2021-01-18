@@ -4,7 +4,8 @@
 <div id="reservation" class="conteneur py-5">
   <h1>Toutes nos offres</h1>
   <?php
-   $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y") AS new_date_arrivee,date_format(date_arrivee,"%T") AS heure_arrivee,date_format(date_depart,"%d/%m/%Y") AS new_date_depart,produit.*,date_format(date_depart,"%T") AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW()');
+   $pdo->query("SET lc_time_names = 'fr_FR'");
+   $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d %b %Y") AS new_date_arrivee,date_format(date_arrivee,"%T") AS heure_arrivee,date_format(date_depart,"%d %b %Y") AS new_date_depart,produit.*,date_format(date_depart,"%T") AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW()');
 
    include('../inc/affichage_filtre.inc.php');
    ?>

@@ -1,20 +1,18 @@
 <?php include_once('../inc/init.inc.php');?>
-<?php include_once("../inc/haut.inc.php");?>
-<?php include_once('../inc/menu.inc.php');?>
-<div id="inscription_form" class="py-5">
-  <h1>Inscription</h1>
-  <?php 
-
+<?php  
+ $erreur_pseudo = $erreur_mdp = $erreur_email = "";
 if($_POST)
 {
   $verif_caractere = preg_match("#^[a-zA-Z0-9._-]+$#",$_POST['pseudo']);
-  if (!$verif_caractere || strlen($_POST['pseudo']) <=3 || strlen($_POST['pseudo']) > 20) 
+  if (!$verif_caractere || strlen($_POST['pseudo']) <3 || strlen($_POST['pseudo']) > 20) 
   {
-    $contenu.='Le pseudo doit contenir entre 3 et 20 caractères';
+    //$contenu.='Le pseudo doit contenir entre 3 et 20 caractères';
+    $erreur_pseudo = "Le pseudo doit contenir entre 3 et 20 caractères";
 
-  }elseif (strlen($_POST['mdp']) <=3 || strlen($_POST['mdp']) > 20) 
+
+  }elseif (strlen($_POST['mdp']) <3 || strlen($_POST['mdp']) > 20) 
   {
-    $contenu.='Le mot de passe doit contenir entre 3 et 20 caractères';
+    $erreur_mdp='Le mot de passe doit contenir entre 3 et 20 caractères';
   }else 
   {
     $membre = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
@@ -22,10 +20,10 @@ if($_POST)
     // rowCount() retourne le nombre de ligne qui existe dans une table
     if ($membre->rowCount()>0) 
     {
-        $contenu.="Ce pseudo existe déjà";
+      $erreur_pseudo ="Ce pseudo existe déjà";
     }elseif($membre2->rowCount()>0)
     { 
-        $contenu.="Il existe déjà un compte avec cet adresse email<br><a href='/pages/mdpperdu.php'>Mot de passe oublié ?</a>";
+      $erreur_email = "Il existe déjà un compte avec cet adresse email<br><a href='/pages/mdpperdu.php'>Mot de passe oublié ?</a>";
     }else
     {
         $mdp = md5($_POST['mdp']);
@@ -44,26 +42,28 @@ if($_POST)
         $_SESSION['membre']['pseudo']=$_POST['pseudo'];
         $_SESSION['membre']['adresse']=$_POST['adresse'];
         $_SESSION['membre']['statut']=0;
-        echo'<div class="text-center">';
-        echo '<h2>Bienvenue '.$_POST['prenom'].'</h2>'
-        .'Votre compte a été créé avec succès !<br>'; 
-        echo '<a href="../index.php">Retour à la page d\'accueil</a>';
-        echo'</div>';
-        die();
+        header('Location: profil.php');
+        exit; 
     }   
   }
 }
-
 ?>
+<?php include_once("../inc/haut.inc.php");?>
+<?php include_once('../inc/menu.inc.php');?>
+<div id="inscription_form" class="py-5">
+  <h1>Inscription</h1>
+  
   <?php echo '<div class="text-center">'.$contenu.'</div>'; ?>
   <form action="" method="post" class="py-5">
     <div class="mb-3">
         <label for="pseudo" class="form-label">Pseudo*</label>
         <input type="text" class="form-control" id="pseudo" name="pseudo" maxlength="20" placeholder="Votre pseudo" pattern="[a-zA-Z0-9-_.]{2,20}" title="caractères acceptés : a-zA-Z0-9-_." required="required">
+        <p class="message_error"><?php echo $erreur_pseudo ?></p>
     </div>
     <div class="mb-3">
       <label for="mdp" class="form-label">Mot de passe*</label>
       <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe" required="required">
+      <p class="message_error"><?php echo $erreur_mdp ?></p>
     </div>
     <div class="mb-3">
         <label for="nom" class="form-label">Nom</label>
@@ -76,6 +76,7 @@ if($_POST)
     <div class="mb-3">
       <label for="email" class="form-label">Email*</label>
       <input type="email" class="form-control" id="email" name="email" placeholder="adresse@email.com" required="required">
+      <p class="message_error"><?php echo $erreur_email ?></p>
     </div>
     <div class="mb-3">
       <select class="form-select" name="sexe">

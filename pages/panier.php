@@ -23,7 +23,7 @@ if (isset($_GET['ajout_panier']))
 <?php include_once('../inc/menu.inc.php');?>
 <div id="panier" class="conteneur py-5">
   <h1>Panier</h1>
-  <div class="row">
+  <div class="row table-responsive">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -40,9 +40,8 @@ if (isset($_GET['ajout_panier']))
         </tr>
       </thead>
       <tbody>
-      <?php if (isset($_SESSION['panier']))
-      {
-        if(empty($_SESSION['panier']))
+      <?php
+        if((isset($_SESSION['panier']) && empty($_SESSION['panier'])) || !isset($_SESSION['panier']))
         {?>
         <tr>
           <td scope="col" class="text-center" colspan="10">Votre panier est vide</td>
@@ -68,7 +67,7 @@ if (isset($_GET['ajout_panier']))
                 $data = $codepromo->fetch(PDO::FETCH_ASSOC);
                 if ($codepromo->rowcount() !=0 && $data['id_produit']==$key) 
                 {
-                  echo '<strong>Remise : '.$_POST['codepromo'].' - '.$data['reduction'] .'%</strong>';
+                  echo '<strong>Remise : '.$_POST['codepromo'].'<br> - '.$data['reduction'] .'%</strong>';
                 }elseif($codepromo->rowcount() == 0)
                 {
                   $message = 'Le code promo n\'est pas valide';
@@ -79,7 +78,7 @@ if (isset($_GET['ajout_panier']))
           </tr>
           <?php } 
         }
-      }?>
+      ?>
       </tbody>  
       <tfoot>
         <tr>
@@ -114,26 +113,30 @@ if (isset($_GET['ajout_panier']))
         </tfoot>
       </thead>
     </table>
+  </div>
+  <div class="row">
     <form method="post" action="">
-      <div class="my-3">
-        <label for="cgv" class="form-label">J'accepte les conditions générales de vente <a href="/pages/cgv.php">(voir)</a>
-        <input type="checkbox" name="cgv" id="cgv" required><br>
-      </div>
       Utiliser un code promo<br>
-      <div class="input-group col-3 px-0">
+      <div class="input-group col-12 col-lg-4 px-0">
         <input type="text" name="codepromo" id="codepromo" class="form-control" placeholder="Votre code promo" aria-label="" aria-describedby="basic-addon1">
         <div class="input-group-append">
           <button type="submit" class="btn btn-outline-secondary" type="button">Valider</button>
         </div>
       </div>
       <p class="message_error"><?php if (!empty($_POST['codepromo'])) echo $message?> </p>
+      </form>
+      <form method="post" action="">
+      <div class="my-3">
+        <label for="cgv" class="form-label">J'accepte les conditions générales de vente <a href="/pages/cgv.php">(voir)</a>
+        <input type="checkbox" name="cgv" id="cgv" required><br>
+      </div>
       <div class="my-3">
         <input type="submit" class="btn btn-primary" value="Payer">
       </div>
     </form>
 <a href="/pages/panier.php?action=vider_panier"> + Vider le panier</a>
   </div>
-  <div>
+  <div class="my-5">
     <pre>
 Tous nos articles sont calculés avec le taux de TVA à 19,6%
 
@@ -141,7 +144,7 @@ Règlement: Par Chèque uniquement
 
 Nous attendons votre règlement par chèque à l'adresse suivante:
 
-Ma boutique - 1 Rue Boswellia, 75000 Paris, France
+Lokisalle - 1 Rue Boswellia, 75000 Paris, France
     </pre>
 
   </div>

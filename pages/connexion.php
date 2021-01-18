@@ -71,7 +71,6 @@ $resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
 
 <div id="connexion_form" class="formulaire py-5">
   <h1>Connexion</h1>
-
   <ul class="nav nav-tabs" id="cf" role="tablist">
     <li class="nav-item" role="connexion_form">
       <a class="nav-link active" id="membre-tab" data-bs-toggle="tab" href="#membre" role="tab" aria-controls="membre" aria-selected="true">Déjà membre ?</a>
@@ -101,7 +100,11 @@ $resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
         <a href="/pages/mdpperdu.php">Mot de passe oublié</a>
       </form>
     </div>
-    <div class="tab-pane fade text-center" id="nonmembre" role="tabpanel" aria-labelledby="membre-tab"><a href="/pages/inscription.php">Inscrivez-vous</div>
+    <div class="tab-pane fade text-center" id="nonmembre" role="tabpanel" aria-labelledby="membre-tab">
+      <div class="lien_inscription text-center my-5">
+        <a href="/pages/inscription.php">Inscrivez-vous</a>
+      </div>
+    </div>
 
   </div>
 </div>

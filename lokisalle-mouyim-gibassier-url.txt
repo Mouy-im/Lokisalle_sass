@@ -1,0 +1,10 @@
+https://www.lokisalle.mouyim-gibassier.xyz/
+
+membre simple : 
+pseudo : jean
+mdp : 123456
+
+membre admin :
+pseudo : admin
+mdp : admin
+

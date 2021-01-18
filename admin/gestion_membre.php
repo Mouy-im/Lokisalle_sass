@@ -120,7 +120,6 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' )
     $pdelete = $pdo->prepare("DELETE FROM membre WHERE id_membre = ?");
     $delete = $pdelete->execute(array($_GET['id']));
     echo '<div class="alert alert-success" role="alert">Suppression du membre '.$_GET['id'].' effectué' ;
-    die;
 }
 
 if (isset($_GET['action']) && $_GET['action'] == 'afficher') 
@@ -155,19 +154,18 @@ $resultat = $pdo->query('SELECT * FROM membre');
 while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
 {
     echo '<tr>'; 
-    echo '<td>'.$datas['id_membre'].'</td>';
-    echo '<td>'.$datas['pseudo'].'</td>';
-    echo '<td>'.$datas['mdp'].'</td>';
-    echo '<td>'.$datas['nom'].'</td>';
-    echo '<td>'.$datas['prenom'].'</td>';
-    echo '<td>'.$datas['email'].'</td>';
-    echo '<td>'.$datas['sexe'].'</td>';
-    echo '<td>'.$datas['ville'].'</td>';
-    echo '<td>'.$datas['cp'].'</td>';
-    echo '<td>'.$datas['adresse'].'</td>';
-    echo '<td>'.$datas['statut'].'</td>';
-    echo '<td><a href="?action=delete&id='.$datas['id_membre'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
-    
+      echo '<td>'.$datas['id_membre'].'</td>';
+      echo '<td>'.$datas['pseudo'].'</td>';
+      echo '<td>'.$datas['mdp'].'</td>';
+      echo '<td>'.$datas['nom'].'</td>';
+      echo '<td>'.$datas['prenom'].'</td>';
+      echo '<td>'.$datas['email'].'</td>';
+      echo '<td>'.$datas['sexe'].'</td>';
+      echo '<td>'.$datas['ville'].'</td>';
+      echo '<td>'.$datas['cp'].'</td>';
+      echo '<td>'.$datas['adresse'].'</td>';
+      echo '<td>'.$datas['statut'].'</td>';
+      echo '<td><a href="?action=delete&id='.$datas['id_membre'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
     echo '</tr>';
 ?>
 <?php               

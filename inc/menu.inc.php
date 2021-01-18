@@ -1,7 +1,7 @@
 <header id="haut" class="sticky-top">
   <div id="banniere">
     <a href="/index.php" title="accueil"><img class="pt-5" id="logo" src="/inc/logo/logo.png" alt="location salle de reunion lokisalle"></a>
-    <p class="slogan">Le meilleur de la location de salle de réunion</p>
+    <p class="slogan">Votre salle de réunion - Au meilleur prix</p>
     <img  id="banniere_img" src="/images/banniere_2.jpg" alt="location salle de reunion lokisalle">
   </div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -28,7 +28,7 @@
           <?php if (internauteEstConnecte()) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Mon compte
+              Espace membre
               <?php if (internauteEstConnecteEtEstAdmin()) echo ' - Admin';?>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -59,7 +59,7 @@
         <?php
         if (internauteEstConnecte()) 
           {
-            echo '<a href="/pages/panier.php" class="nav-link btn btn-primary mx-2"><i class="fa fa-shopping-basket"></i> ';
+            echo '<a href="/pages/panier.php" class="nav-link btn btn-primary mx-2"><i class="fa fa-shopping-basket mr-1"></i> ';
              
                   if(isset($_SESSION['panier'])) 
                   {

@@ -1,7 +1,7 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php include_once("../inc/haut.inc.php");?>
 <?php include_once('../inc/menu.inc.php');?>
-<div id="ml" class="container py-5">
+<div id="ml" class="conteneur py-5">
   <h1>Mentions Légales</h1>
   <div>Le directeur de publication du site est Monsieur IMAGINAIRE.
   Le présent site dénommé "Lokisalle" est un site fictif,

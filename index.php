@@ -1,69 +1,33 @@
 <?php include_once('inc/init.inc.php');?>
 <?php include_once('inc/haut.inc.php');?>
 <?php include_once('inc/menu.inc.php');?>
-
- <!-- <div id="carouselExampleCaptions" class="carousel carousel-fade slide" data-bs-ride="carousel">
-    <ol class="carousel-indicators">
-      <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></li>
-      <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></li>
-      <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="/images/salle1.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>First slide label</h5>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="/images/salle2.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Second slide label</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="/images/salle3.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Third slide label</h5>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-        </div>
-      </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </a>
-  </div>
-</div>-->
 <div class="container-fluid">
   <div class="row mx-auto ">
-    <div class="col-12 col-md-8 p-5">
+    <div class="col-12 col-md-6 col-lg-8 p-md-2 p-lg-5">
       <h1>Lokisalle</h1>
-      <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean orci nisl, porta convallis commodo at, hendrerit eget nisl. Proin augue tortor, dapibus ornare tristique vitae, porttitor vitae erat. Phasellus tempor, justo eu interdum maximus,
-      augue felis faucibus quam, viverra consectetur nulla sapien nec est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus est tortor, tempus quis augue a, facilisis sagittis sem. Vivamus condimentum
-      finibus lacus nec cursus. Etiam quis pretium velit. Nullam interdum, mi sollicitudin interdum ultrices, leo odio semper sapien, in aliquet elit urna at massa. Proin quam sapien, lacinia at nibh eget, vestibulum cursus enim. Quisque imperdiet
-      at risus vitae auctor. Etiam suscipit erat tortor, convallis luctus tellus cursus et. Nunc ornare condimentum bibendum. In elit mi, semper eu fringilla nec, suscipit nec libero. Cras quis scelerisque magna. Fusce porttitor, purus et aliquet
-      porta, quam mauris dictum purus, nec mollis tortor metus ut erat. Morbi sit amet purus malesuada libero consectetur aliquet sit amet sed dui. Donec malesuada eros vitae augue pretium rhoncus.</p>
-      <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda tempora amet nisi porro aliquid pariatur unde fugiat sequi tempore corrupti odit officiis doloribus nostrum architecto laudantium deleniti neque quia, quam provident rerum consectetur alias. Laborum unde blanditiis ab dolorum maxime, praesentium optio amet vitae nostrum, obcaecati non cumque facere et aliquam, suscipit perferendis voluptate ratione perspiciatis! Suscipit cupiditate reiciendis perspiciatis possimus blanditiis, porro distinctio assumenda. Ea est asperiores nostrum adipisci aut, sint accusantium! Recusandae, non nobis voluptates in voluptatum nemo cumque nihil ab porro odit at repellendus quidem quas cum ipsum alias distinctio impedit pariatur itaque assumenda laudantium similique voluptatibus?</p>
-      <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda tempora amet nisi porro aliquid pariatur unde fugiat sequi tempore corrupti odit officiis doloribus nostrum architecto laudantium deleniti neque quia, quam provident rerum consectetur alias. Laborum unde blanditiis ab dolorum maxime, praesentium optio amet vitae nostrum, obcaecati non cumque facere et aliquam, suscipit perferendis voluptate ratione perspiciatis! Suscipit cupiditate reiciendis perspiciatis possimus blanditiis, porro distinctio assumenda. Ea est asperiores nostrum adipisci aut, sint accusantium! Recusandae, non nobis voluptates in voluptatum nemo cumque nihil ab porro odit at repellendus quidem quas cum ipsum alias distinctio impedit pariatur itaque assumenda laudantium similique voluptatibus?</p>
+      <p class="text-justify">Lokisalle vous propose un service de location de salle à Paris, Marseille et Lyon.</p>
+      <p class="text-justify">Le monde du travail est en profonde mutation. Fini les salles de réunions et les postes de travail classiques, dématérialisé, il évolue vers davantage de flexibilité, de nomadisme, et adopte un style libéré. De ce constat, Lokisalle a créé la première marketplace collaborative permettant d’héberger les activités professionnelles chez l’habitant.</p>
+
+      <p class="text-justify">Location de salle de réunion : la révolution des espaces de travail partagés
+      Dans les grandes villes, c’est une révolution : à l’aide des nouvelles technologies, Lokisalle réinvente des espaces uniques et atypiques sous-utilisés, à l’intention des professionnels.</p>
+
+      <p class="text-justify">Avec Lokisalle, vivez l’expérience du travail de demain grâce à cette solution profitant à tous et offrant une diversité d’espace sans pareille : des ateliers d’artistes, des lofts industriels, des boutiques-hôtels, des concepts stores…</p>
+      <div class="my-3">
+        <img class="my-5" id="image_index" src="/images/meeting-1453895_1280.png" alt="image reunion professionnelle">
+      </div>
     </div>
-    <div class="col-12 col-md-4 my-5 mx-auto bg-light p-5">
-        <h2 class="h4 text-center">Nos 3 dernières offres</h2>
+    <div class="col-12 col-md-6 col-lg-4 my-5 mx-auto bg-light shadow rounded py-5">
+        <h2 class="h4 text-center"><strong>Nos 3 dernières offres</strong></h2>
         <div class="row mx-2">
 <?php
-$resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y") AS new_date_arrivee,date_format(date_arrivee,"%T") AS heure_arrivee,date_format(date_depart,"%d/%m/%Y") AS new_date_depart,produit.*,date_format(date_depart,"%T") AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW() ORDER BY produit.id_produit DESC LIMIT 3');
+$pdo->query("SET lc_time_names = 'fr_FR'");
+$resultat = $pdo->query('SELECT date_format(date_arrivee,"%d %b %Y") AS new_date_arrivee,date_format(date_arrivee,"%T") AS heure_arrivee,date_format(date_depart,"%d %b %Y") AS new_date_depart,produit.*,date_format(date_depart,"%T") AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1 AND produit.date_arrivee > NOW() ORDER BY produit.id_produit DESC LIMIT 3');
 while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
 {
     $datas['description'] = stripslashes($datas['description']);
 ?>
         <div class="col-12  my-3">
-          <div class="card">
+          <div class="card shadow rounded">
             <img src="<?php echo $datas['photo']?>" class="card-img-top" alt="<?php echo $datas['titre']?>">
             <div class="card-body">
                 <h2 class="card-title text-center"><?php echo $datas['titre']?></h2>

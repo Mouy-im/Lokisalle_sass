@@ -6,8 +6,10 @@ header {
     }
     .slogan {
         position: absolute;
-        left: 80px;
-        top: 130px;
+        left: 85px;
+        top: 110px;
+        font-family: 'Pacifico', cursive;
+        color: $color-ville;
     }
     #banniere {
         &_img {
@@ -27,4 +29,12 @@ ol {
     &.breadcrumb {
         margin-bottom: 0;
     }
+}
+
+.fa-shopping-basket {
+    font-size: 1.3em;
+}
+
+.badge {
+    font-size: 1em;
 }

@@ -11,8 +11,6 @@
  <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"rel="stylesheet">
 
 
-
-
     <!-- Bootswatch flatly -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/flatly/bootstrap.min.css" integrity="sha384-qF/QmIAj5ZaYFAeQcrQ6bfVMAh4zZlrGwTPY7T/M+iTTLJqJBJjwwnsE5Y0mV7QK" crossorigin="anonymous">
     <!-- Bootstrap library fonte-awesome -->
@@ -34,8 +32,18 @@
      <script src="/inc/js/jquery-ui-1.12.1/jquery-ui.js"></script>
     <script src="/inc/js/datepickerfr.js"></script>
     <script src="/inc/js/script.js"></script>
+    
     <title>Lokisalle</title>
     <meta name="description" content="Lokisalle propose un service de location de salle de réunion partout en France. Paris, Lyon et Marseille, trouver une salle au meilleur prix. Projet IFOCOP">
     <link rel="icon" type="image/png" sizes="30x30" href="/inc/logo/logoseul.png">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YVQ5BRKE9"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7YVQ5BRKE9');
+    </script>
 </head>
 <body>

@@ -3,4 +3,7 @@
     #nonmembre {
         height: 125px;
     }
+    @media(max-width: 800px) {
+        width: 90%;
+    }
 }

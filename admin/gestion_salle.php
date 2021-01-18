@@ -48,7 +48,6 @@ if (!empty($_POST))
       $statement = $pdo->prepare("INSERT INTO salle(pays, ville, adresse, cp, titre, description, photo, capacite, categorie)VALUES (?,?,?,?,?,?,?,?,?)");
       $resultat = $statement->execute(array($_POST['pays'],$_POST['ville'],$_POST['adresse'],$_POST['cp'],$_POST['titre'],$_POST['description'],$photo_bdd,$_POST['capacite'],$_POST['categorie']));
       echo '<div class="alert alert-success" role="alert">Ajout d\'une nouvelle salle réussie</div>';
-      die;
     }
     //modification 
     if($_GET['action']=='edit')
@@ -56,7 +55,6 @@ if (!empty($_POST))
       $statement = $pdo->prepare("UPDATE salle SET pays = ?, ville = ?, adresse = ?, cp = ?, titre = ?, description = ?, photo = ?, capacite =?, categorie = ? WHERE id_salle = '$_GET[id]'");
       $resultat = $statement->execute(array($_POST['pays'],$_POST['ville'],$_POST['adresse'],$_POST['cp'],$_POST['titre'],$_POST['description'],$photo_bdd,$_POST['capacite'],$_POST['categorie']));
       echo '<div class="alert alert-success " role="alert">Modification de la salle '.$_POST['id_salle'].' effectuée</div>';
-      die;
     }
 }
 
@@ -75,8 +73,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete')
   }
 
    $pdo->query("DELETE FROM salle WHERE id_salle = '$_GET[id]'");
-   echo '<div class="alert alert-success" role="alert">Suppression de la salle '.$_GET['id'].' effectuée</div>' ;
-      die;
+   echo '<div class="alert alert-success" role="alert">Suppression de la salle '.$_GET['id'].' effectuée</div>';
 }
 
 //Formulaire ajout ou modification d'une salle

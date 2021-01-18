@@ -97,6 +97,7 @@ function affichage_form_avis()
 {
 ?>
    <form action="" method="post" class="pb-5">
+   <input type="hidden" value="<?php echo $datas['id_salle']?>"/>
         <div class="mb-3">
             Note : 
             <select class="form-select" name="note" required="required">
