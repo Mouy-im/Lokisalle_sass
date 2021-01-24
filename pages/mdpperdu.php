@@ -7,18 +7,29 @@ if (isset($_POST['email']))
 {
   $resultat = $pdo->query("SELECT * FROM membre WHERE email = '$_POST[email]'");
   $data = $resultat->fetch(PDO::FETCH_ASSOC);
+  $to = $_POST['email'];
+  $subject = 'Lokisalle : Renouvellement de votre mot de passe';
+  $from = 'contact@mouyim-gibassier.xyz';
+  $headers  = 'MIME-Version: 1.0' . "\r\n";
+  $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 
-  $emailText = 'Pour reinitialiser votre mot de passe cliquer sur le lien suivant:
-   https://www.lokisalle.mouyim-gibassier.xyz%2F'/*/pages/reinit_mdp.php?action=new_mdp&id='.$data['id_membre']*/;
+//En-têtes de courriel
+$headers .= 'From: '.$from."\r\n".
+    'Reply-To: '.$from."\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+//Message électronique HTML
+$emailText = '<html><body>';
+$emailText .= '<h1>Bonjour '.$data['pseudo'].' !</h1>';
+$emailText .= '<p>Pour réinitialiser votre mot de passe cliquer sur le lien suivant:</p>
+<a href="https://www.lokisalle.mouyim-gibassier.xyz/pages/reinit_mdp.php?action=new_mdp&id='.$data['id_membre'].'">https://www.lokisalle.mouyim-gibassier.xyz/pages/reinit_mdp.php?action=new_mdp&id='.$data['id_membre'].'</a><br><br><br><br>
+<footer>Cordialement,<br><br>Marie de Lokisalle</footer>';
+$emailText .= '</body></html>';
 
   if ($resultat->rowCount() != 0) 
   {
-    $subject = 'Lokisalle : Réinitialisation de votre mot de passe';
-   
-    $headers = "From : nepasrepondre@lokisalle.fr";
-    $emailTo = $_POST['email'];
-    mail($emailTo,$subject,$emailText,$headers);
-    $message = 'Un mail de réinitialisation vous a été envoyé à cette adresse : '.$_POST['email'].'<br><a href ="https://www.lokisalle.mouyim-gibassier.xyz/pages/reinit_mdp.php?action=new_mdp&id='.$data['id_membre'].'">Cliquez-ici pour réinitialiser votre mot de passe</a>';
+    mail($to, $subject, $emailText, $headers);
+    $message = 'Un mail de réinitialisation vous a été envoyé à cette adresse : '.$_POST['email'];
   }else
   {
     $message = 'Vous n\'avez pas de compte.<br><a href="/pages/inscription.php">Créer un compte ici</a>';

@@ -136,7 +136,7 @@ if (isset($_GET['action']) && ($_GET['action']=='ajout' || $_GET['action']=='edi
             <option value ="-" disabled selected>Catégorie</option>
             <option value ="Réunion"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'Réunion') echo 'selected';?>>Réunion</option>
             <option value ="Bureau"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'Bureau') echo 'selected';?>>Bureau</option>
-            <option value ="Formation"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'Formation') echo 'selected';?>>Formation</option>
+            <option value ="Conférence"<?php if (isset($salle['categorie']) && $salle['categorie'] == 'Conférence') echo 'selected';?>>Conférence</option>
          </select>
        </div>
       <button type="submit" class="btn btn-primary mt-2"><?php 
@@ -190,7 +190,7 @@ while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
     echo '<td class="align-middle">'.$datas['capacite'].'</td>';
     echo '<td class="align-middle">'.$datas['categorie'].'</td>';
     echo '<td class="align-middle"><a href="?action=edit&id='.$datas['id_salle'].'"><i class="fa fa-edit fa-2x"></i></a></td>';
-    echo '<td class="align-middle"><a href="?action=delete&id='.$datas['id_salle'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
+    echo '<td class="align-middle"><a href="?action=delete&id='.$datas['id_salle'].'" Onclick="'."return(confirm('Êtes-vous sûr de vouloir supprimer cette salle?'))".'"><i class="fa fa-trash fa-2x"></i></a></td>';
     echo '</tr>';
 }
 ?>

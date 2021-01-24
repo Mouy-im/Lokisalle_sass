@@ -1,6 +1,6 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php  
- $erreur_pseudo = $erreur_mdp = $erreur_email = "";
+ $erreur_pseudo = $erreur_mdp = $erreur_email = $erreur_mdp2= "";
 if($_POST)
 {
   $verif_caractere = preg_match("#^[a-zA-Z0-9._-]+$#",$_POST['pseudo']);
@@ -13,6 +13,9 @@ if($_POST)
   }elseif (strlen($_POST['mdp']) <3 || strlen($_POST['mdp']) > 20) 
   {
     $erreur_mdp='Le mot de passe doit contenir entre 3 et 20 caractères';
+  }elseif ($_POST['mdp'] != $_POST['mdp2']) 
+  {
+    $erreur_mdp2='Les mots de passe sont différents';
   }else 
   {
     $membre = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
@@ -63,15 +66,14 @@ if($_POST)
     <div class="mb-3">
       <label for="mdp" class="form-label">Mot de passe*</label>
       <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe" required="required">
+      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
       <p class="message_error"><?php echo $erreur_mdp ?></p>
     </div>
     <div class="mb-3">
-        <label for="nom" class="form-label">Nom</label>
-        <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom">
-    </div>
-    <div class="mb-3">
-        <label for="prenom" class="form-label">Prénom</label>
-        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prenom">
+      <label for="mdp2" class="form-label">Confirmation du mot de passe*</label>
+      <input type="password" class="form-control" id="mdp2" name="mdp2" placeholder="Confirmer votre mot de passe" required="required">
+      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password2"></span>
+      <p class="message_error"><?php echo $erreur_mdp2 ?></p>
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Email*</label>
@@ -86,16 +88,24 @@ if($_POST)
       </select>
     </div>
     <div class="mb-3">
-        <label for="ville" class="form-label">Ville</label>
-        <input type="text" class="form-control" id="ville" name="ville" placeholder="votre ville" pattern="[a-zA-Z0-9-_.]{5,15}" title="caractères acceptés : a-zA-Z0-9-_.">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom">
     </div>
     <div class="mb-3">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prenom">
+    </div>
+    <div class="mb-3">
+        <label for="adresse" class="form-label">Adresse</label>
+        <textarea type="text" id="adresse" class="form-control" name="adresse" placeholder="votre adresse" pattern="[a-zA-Z0-9-_.]{5,15}" title="caractères acceptés :  a-zA-Z0-9-_."></textarea>
+    </div>
+   <div class="mb-3">
         <label for="cp" class="form-label">Code postal</label>
         <input type="text" class="form-control" id="cp" name="cp" placeholder="code postal" pattern="[0-9]{5}" title="5 chiffres requis : 0-9">
     </div>
     <div class="mb-3">
-        <label for="adresse" class="form-label">Adresse</label>
-        <textarea id="adresse" class="form-control" name="adresse" placeholder="votre adresse" pattern="[a-zA-Z0-9-_.]{5,15}" title="caractères acceptés :  a-zA-Z0-9-_."></textarea>
+        <label for="ville" class="form-label">Ville</label>
+        <input type="text" class="form-control" id="ville" name="ville" placeholder="votre ville" pattern="[a-zA-Z0-9-_.]{5,15}" title="caractères acceptés : a-zA-Z0-9-_.">
     </div>
     <i>*Champs requis</i><br>
   <button type="submit" class="btn btn-primary mt-2">S'inscrire</button>

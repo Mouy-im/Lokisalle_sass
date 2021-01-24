@@ -77,13 +77,13 @@ function montantTotal()
 {
     if (!empty($_SESSION['panier'])) 
     {
-        $total = 0;
+        $total_ht = 0;
 
         foreach ($_SESSION['panier'] as $key => $value) {
-            $total += $value['prix'];//HT
-            $total_ttc = $total*1.196;
+            $total_ht += $value['prix'];//HT
+            //$total_ttc = $total*1.196;
         }
-        return $total_ttc;
+        return $total_ht;
     }
 }
 
@@ -92,6 +92,13 @@ function reduction($promo)
    $res =  montantTotal()*(1-$promo/100);
    return $res;
 }
+
+function modal()
+{
+    echo '<h2>Produit ajouté au panier</h2>';
+}
+
+
 
 function affichage_form_avis()
 {

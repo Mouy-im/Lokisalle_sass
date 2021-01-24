@@ -1,3 +1,6 @@
 #mdpperdu_form form {
     @include formulaire;
+    @media(max-width: 800px) {
+        width: 90%;
+    }
 }

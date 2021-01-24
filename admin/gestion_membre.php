@@ -165,7 +165,7 @@ while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
       echo '<td>'.$datas['cp'].'</td>';
       echo '<td>'.$datas['adresse'].'</td>';
       echo '<td>'.$datas['statut'].'</td>';
-      echo '<td><a href="?action=delete&id='.$datas['id_membre'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
+      echo '<td><a href="?action=delete&id='.$datas['id_membre'].'" Onclick="'."return(confirm('Êtes-vous sûr de vouloir supprimer ce membre?'))".'"><i class="fa fa-trash fa-2x"></i></a></td>';
     echo '</tr>';
 ?>
 <?php               

@@ -22,7 +22,6 @@ if(isset($_COOKIE['pseudo']) && isset($_COOKIE['mdp']))
   $_SESSION['membre']['statut']=$membre['statut'];
   
   header('Location: profil.php');
-  exit; 
 }
 
 if(!empty($_POST))
@@ -91,6 +90,7 @@ $resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
         <div class="mb-3">
           <label for="mdp" class="form-label">Mot de passe</label>
           <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe">
+          <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
         </div>
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="check_remind" name="check_remind">

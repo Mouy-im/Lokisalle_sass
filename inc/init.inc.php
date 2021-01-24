@@ -18,4 +18,5 @@ $message = "";
 
 //FONCTIONS
 require("fonction.inc.php");
+require("ajout_panier.inc.php");
 ?>

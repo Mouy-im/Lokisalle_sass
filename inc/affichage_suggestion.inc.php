@@ -4,7 +4,7 @@ while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
 {
     $datas['description'] = stripslashes($datas['description']);
 ?>
-    <div class="col-12 col-sm-6 my-3 mx-auto">
+    <div class="col-12 col-lg-6 col-xl-4 my-3">
         <div class="card shadow">
             <img src="<?php echo $datas['photo']?>" class="card-img-top" alt="<?php echo $datas['titre']?>">
             <div class="card-body">

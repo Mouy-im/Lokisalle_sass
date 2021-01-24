@@ -71,7 +71,7 @@ $resultat = $pdo->query('SELECT * FROM promotion');
         echo '<td>'.$datas['code_promo'].'</td>';
         echo '<td>'.$datas['reduction'].'</td>';
         echo '<td><a href="?action=edit&id='.$datas['id_promo'].'"><i class="fa fa-edit fa-2x"></i></a></td>';
-        echo '<td><a href="?action=delete&id='.$datas['id_promo'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
+        echo '<td><a href="?action=delete&id='.$datas['id_promo'].'" Onclick="'."return(confirm('Êtes-vous sûr de vouloir supprimer ce code promo?'))".'"><i class="fa fa-trash fa-2x"></i></a></td>';
         echo '</tr>';
     } ?>
             </tbody>

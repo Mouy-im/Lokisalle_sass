@@ -2,12 +2,11 @@
 <?php include_once("../inc/haut.inc.php");?>
 <?php include_once('../inc/menu.inc.php');?>
 
-<div id="reservation_details" class="conteneur py-5">
+<div id="salle_details" class="conteneur py-5">
 <!--    <a href="/pages/recherche.php"><i class="fa fa-arrow-circle-left fa-3x pr-2"></i>Retour recherche</a>-->
 <?php
 if (isset($_GET)) {
-    $pdo->query("SET lc_time_names = 'fr_FR'");
-    $salle = $pdo->query("SELECT date_format(date_arrivee,'%d %b %Y') AS new_date_arrivee,date_format(date_arrivee,'%kh%i') AS heure_arrivee,date_format(date_depart,'%d %b %Y') AS new_date_depart,produit.*,date_format(date_depart,'%kh%i') AS heure_depart,salle.* FROM salle, produit WHERE salle.id_salle = produit.id_salle AND produit.id_produit = '$_GET[id]'");
+    $salle = $pdo->query("SELECT * FROM salle WHERE id_salle = $_GET[id]");
     $datas = $salle->fetch(PDO::FETCH_ASSOC); 
     $datas['description'] = stripslashes($datas['description']);
     $datas['adresse'] = stripslashes($datas['adresse']);
@@ -30,47 +29,96 @@ if (isset($_GET)) {
        <?php echo $message ?>
         </div>
     </div>
-    <div class="row">
+    <div class="row bg-light shadow rounded p-3 p-md-5">
         <div class="col-10 mx-auto">
-            <div class="row bg-light shadow rounded p-3 p-md-5">
+            <div class="row">
                 <div class="col-12 col-md-5">
                     <img id="img_reservation_detail" src="<?php echo $datas['photo']?>" class="card-img-top" alt="'<?php echo $datas['titre']?>">
                 </div>
-                <div class="col-12 col-md-7">
-                <p>
-                    <strong>Description : </strong><?php echo $datas['description'] ?><br><br>
-                    <strong>Capacité :  </strong><?php echo $datas['capacite']?> personnes<br><br>
-                    <strong>Catégorie : </strong><?php echo $datas['categorie']?><br>
-                </p>
+                <div class="col-12 col-md-7 my-auto">
+                    <p>
+                        <strong>Description : </strong><?php echo $datas['description'] ?><br>
+                        <strong>Capacité :  </strong><?php echo $datas['capacite']?> personnes
+                        <span class="pl-3"><strong>Catégorie : </strong><?php echo $datas['categorie']?></span><br>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-7 my-auto">
+                    <p class="mt-5">
+                        <strong>Adresse : </strong><?php echo $datas['adresse'] ?><br>
+                        <strong>Ville : </strong><?php echo $datas['ville'] ?><br>
+                        <strong>Code postal : </strong><?php echo $datas['cp'] ?><br>
+                        <strong>Pays : </strong><?php echo $datas['pays'] ?><br>
+                    </p>
+                </div>
+                <div class="col-12 col-md-5">
+                <strong>Accès : </strong><br>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.7019296386375!2d2.435313316145011!3d48.84482397928618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e672a3399ef36d%3A0x3000b2a1a3c6d510!2s10%20Avenue%20de%20Paris%2C%2094300%20Vincennes!5e0!3m2!1sfr!2sfr!4v1609708712237!5m2!1sfr!2sfr" width="350" height="200" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
- <!-- Informations complémentaires -->
+ <!-- Disponibilités -->
     <div class="row mt-5">
         <div class="col-12 col-md-6">
-            <div class="col-10 mx-auto bg-light shadow rounded p-3 p-md-5 mt-5">
-                <h2 class="h4 text-center"><strong>Informations complémentaires</strong></h2>
-                <p>
-                    <strong>Pays : </strong><?php echo $datas['pays'] ?><br>
-                    <strong>Ville : </strong><?php echo $datas['ville'] ?><br>
-                    <strong>Adresse : </strong><?php echo $datas['adresse'] ?><br>
-                    <strong>Code postal : </strong><?php echo $datas['cp'] ?><br>
-                    <strong>Date d'arrivée : </strong><?php echo $datas['new_date_arrivee'].' à '.$datas['heure_arrivee']?> <br>
-                    <strong>Date de départ : </strong><?php echo $datas['new_date_depart'].' à '.$datas['heure_depart'] ?> <br>
-                    <strong>Prix : </strong><?php echo $datas['prix'] ?> €*<br>
-                    <em>*Ce prix est hors taxes</em><br>
-                    <strong>Accès : </strong><br>
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.7019296386375!2d2.435313316145011!3d48.84482397928618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e672a3399ef36d%3A0x3000b2a1a3c6d510!2s10%20Avenue%20de%20Paris%2C%2094300%20Vincennes!5e0!3m2!1sfr!2sfr!4v1609708712237!5m2!1sfr!2sfr" width="350" height="200" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                    </div>
-                </p>
+            <div class="col-12 mx-auto bg-light shadow rounded p-2 p-md-3 mt-5">
+                <h2 class="h4 text-center"><strong>Prochaines disponibilités</strong></h2>
+               
+               <?php 
+               $produit = $pdo->query("SELECT date_format(date_arrivee,'%d/%m/%Y à %kh%i') AS new_date_arrivee, date_format(date_depart,'%d/%m/%Y à %kh%i') AS new_date_depart,produit.*,salle.* FROM salle, produit WHERE salle.id_salle = produit.id_salle AND produit.id_salle = '$_GET[id]' AND produit.etat = 1 AND produit.date_arrivee >= NOW() ORDER BY produit.date_arrivee ASC");
+               if($produit->rowcount() != 0)
+               {
+                    while ($produits = $produit->fetch(PDO::FETCH_ASSOC)) 
+                    { ?>
+                        <div class="bg-white rounded p-2 shadow mt-3 card">
+                            <p class="card-text mb-0 pt-3">
+                                <strong>Date d'arrivée : </strong><?php echo $produits['new_date_arrivee']?> <br>
+                                <strong>Date de départ : </strong><?php echo $produits['new_date_depart']?> <br>
+                                <span class="price2">Prix : <?php echo $produits['prix']?> €*</span>
+                            
+                            <?php
+                            //affichage du bouton ajouter au panier
+                            if (internauteEstConnecte()) 
+                            {
+                                if(isset($_SESSION['panier'][$produits['id_produit']]))
+                                {
+                                    echo '<a href="#" class="btn btn-primary pull-right mt-4" Onclick="'."return(confirm('Ce produit est déjà dans le panier'))".'"><i class="fa fa-shopping-basket"></i></a><br>';
+                                }else
+                                {
+                                    echo '<a href="/pages/panier.php?ajout_panier&id='.$produits['id_produit'].'" class="btn btn-primary pull-right mt-4"><i class="fa fa-shopping-basket"></i></a>';
+                                }
+                            } else 
+                            {
+                                echo '<a href="#" class="btn btn-primary pull-right mt-4"><i class="fa fa-shopping-basket mr-2"></i>(Se connecter)</a>';
+                            }?>
+                            
+                            </p>  
+                            <span class="text-left"><em>*Ce prix est hors taxes</em></span>
+                        </div> 
+       <?php        }
+               }else
+               {
+                   echo '<div class="text-center bg-white rounded p-2 shadow mt-3">';
+                   echo 'Aucunes disponibilités pour cette salle';
+                   echo '</div>';
+               }
+               
+                ?>
+                
+<?php 
+}
+?> 
+            
             </div>
         </div>
+
 <!-- Avis -->
         <!-- Affichage des avis-->
         <div id="avis" class="col-12 col-md-6">
-            <div class="col-10 mx-auto bg-light shadow rounded p-3 p-md-5 my-5">
+            <div class="col-12 mx-auto bg-light shadow rounded p-2 p-md-4 my-5">
                 <h2 class="h4 text-center"><strong>Avis</strong></h2>
                     <?php
                     $pdo->query("SET lc_time_names = 'fr_FR'");
@@ -115,23 +163,6 @@ if (isset($_GET)) {
             </div>
         </div>
     </div>
-    <?php
-    //affichage du bouton ajouter au panier
-    if (internauteEstConnecte()) 
-    {
-        if(isset($_SESSION['panier'][$_GET['id']]))
-        {
-            echo '<div class="text-center my-5"><a href="#" class="btn btn-primary ml-2" Onclick="'."return(confirm('Ce produit est déjà dans le panier'))".'"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
-        }else
-        {
-            echo '<div class="text-center my-5"><a href="/pages/panier.php?ajout_panier&id='.$_GET['id'].'" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>Ajouter au panier</a></div>';
-        }
-    } else 
-    {
-        echo '<div class="text-center my-5"><a href="#" class="btn btn-primary my-2"><i class="fa fa-shopping-basket mr-2"></i>(Se connecter)</a></div>';
-    }
-}
-?>
 <!--Autres suggestions-->
 
 <div class="row mt-3">

@@ -47,7 +47,7 @@ if (!internauteEstConnecteEtEstAdmin())
                     {
                     ?>
                         <tr>
-                        <td><a href="?action=afficher&id_commande=<?php echo $datas['id_commande']?>"><?php echo $datas['id_commande'] ?></a></td>
+                        <td><a href="?action=afficher&id_commande=<?php echo $datas['id_commande']?>#det_commande"><?php echo $datas['id_commande'] ?></a></td>
                         <td><?php echo $datas['id_membre'] ?></td>
                         <td><?php echo number_format($datas['montant'],2) ?></td>
 
@@ -70,7 +70,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'afficher')
     $commande->execute(array($_GET['id_commande']));
     $data = $commande->fetch(PDO::FETCH_ASSOC);
     ?>
-    <div class="row mt-5">
+    <div id="det_commande" class="row mt-5">
         <h2 class="h5 text-center">Détails de la commande</h2>
         <table class="table table-striped text-center">
             <thead>
@@ -98,13 +98,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'afficher')
             <?php
             if(isset($_GET['trie']) && $_GET['trie'] == 'montant_asc')
             {
-                $resultat = $pdo->query("SELECT commande.*, membre.pseudo AS pseudo, produit.*, details_commande.*, salle.ville AS ville FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]' ORDER by prix asc");
+                $resultat = $pdo->query("SELECT date_format(commande.date,'%d/%m/%Y') AS new_date,commande.*, membre.pseudo AS pseudo, produit.*, details_commande.*, salle.ville AS ville FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]' ORDER by prix asc");
             }elseif(isset($_GET['trie']) && $_GET['trie'] == 'montant_desc')
             {
-                $resultat = $pdo->query("SELECT commande.*, membre.pseudo AS pseudo, produit.*, details_commande.*, salle.ville AS ville FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]' ORDER by prix desc");
+                $resultat = $pdo->query("SELECT date_format(commande.date,'%d/%m/%Y') AS new_date,commande.*, membre.pseudo AS pseudo, produit.*, details_commande.*, salle.ville AS ville FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]' ORDER by prix desc");
             }else
             {
-                $resultat = $pdo->query("SELECT commande.*, membre.pseudo AS pseudo, produit.*, details_commande.*, salle.ville AS ville FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]'");
+                $resultat = $pdo->query("SELECT date_format(commande.date,'%d/%m/%Y') AS new_date,commande.*, membre.pseudo AS pseudo, produit.*, details_commande.*, salle.ville AS ville FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]'");
             }
                     while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
                     {
@@ -112,7 +112,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'afficher')
                         <tr>
                             <td><?php echo $datas['id_commande'] ?></td>
                             <td><?php echo number_format($datas['prix'],2) ?></td>
-                            <td><?php echo $datas['date'] ?></td>
+                            <td><?php echo $datas['new_date'] ?></td>
                             <td><?php echo $datas['id_membre'] ?></td>
                             <td><?php echo $datas['pseudo'] ?></td>
                             <td><?php echo $datas['id_produit'] ?></td>

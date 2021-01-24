@@ -5,14 +5,15 @@ footer {
     #bas {
         color: #fff!important;
     }
-    i {
+    .fa-arrow-circle-up,
+    .fa-print {
         cursor: pointer;
     }
 }
 
 .retour_scroll {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 50px;
+    right: 10px;
     z-index: 1;
 }

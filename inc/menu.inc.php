@@ -16,13 +16,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/index.php">Accueil</a>
+            <a class="nav-link <?php if($_SERVER['PHP_SELF']=='/index.php') echo 'active'?>" aria-current="page" href="/index.php">Accueil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/pages/reservation.php">Réservation</a>
+            <a class="nav-link <?php if($_SERVER['PHP_SELF']=='/pages/reservation.php') echo 'active'?>" href="/pages/salle.php">Nos salles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/pages/recherche.php">Recherche</a>
+            <a class="nav-link <?php if($_SERVER['PHP_SELF']=='/pages/recherche.php') echo 'active'?>" href="/pages/recherche.php">Nos produits</a>
           </li>
         
           <?php if (internauteEstConnecte()) { ?>
@@ -49,17 +49,17 @@
           </li>
           <?php } else { ?>
           <li class="nav-item">
-              <a class="nav-link" href="/pages/connexion.php">Se connecter</a>
+              <a class="nav-link <?php if($_SERVER['PHP_SELF']=='/pages/connexion.php') echo 'active'?>" href="/pages/connexion.php">Se connecter</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="/pages/inscription.php">S'inscrire</a>
+              <a class="nav-link <?php if($_SERVER['PHP_SELF']=='/pages/inscription.php') echo 'active'?>" href="/pages/inscription.php">S'inscrire</a>
           </li>
           <?php } ?>
       </ul>
         <?php
         if (internauteEstConnecte()) 
           {
-            echo '<a href="/pages/panier.php" class="nav-link btn btn-primary mx-2"><i class="fa fa-shopping-basket mr-1"></i> ';
+            echo '<a href="/pages/panier.php" class="nav-link btn btn-primary mx-2"><i class="fa fa-shopping-basket"></i> ';
              
                   if(isset($_SESSION['panier'])) 
                   {

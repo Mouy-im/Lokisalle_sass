@@ -1,3 +1,6 @@
-#contact_form form {
+#contact_form {
     @include formulaire;
+    @media(max-width: 800px) {
+        width: 90%;
+    }
 }

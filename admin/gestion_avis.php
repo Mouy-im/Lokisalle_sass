@@ -51,9 +51,10 @@ while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
     echo '<td>'.$datas['id_salle'].'</td>';
     echo '<td>'.$datas['commentaire'].'</td>';
     echo '<td>'.$datas['note'].'</td>';
-    echo '<td>'.$datas['date'].'</td>';
-    echo '<td><a href="?action=delete&id='.$datas['id_avis'].'" Onclick="'."return(confirm('Êtes-vous sûr de vouloir supprimer l'avis ?'))".'"><i class="fa fa-trash fa-2x"></i></a></td>';
-    echo '</tr>';
+    echo '<td>'.$datas['date'].'</td>';?>
+    <td><a href="?action=delete&id=<?php echo $datas['id_avis']?>" Onclick="return(confirm('Êtes-vous sûr de vouloir supprimer cet avis?'))"><i class="fa fa-trash fa-2x"></i></a></td>
+    </tr>
+<?php
 }
 ?>
             </tbody>
@@ -61,7 +62,6 @@ while ($datas = $resultat->fetch(PDO::FETCH_ASSOC))
     </div>
   </div>
 </div>
-
 <?php include_once('../inc/bas.inc.php');?>
 
 

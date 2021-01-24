@@ -72,39 +72,45 @@ if (!empty($_POST))
     //modification 
     if(isset($_GET['action']) && $_GET['action']=='edit')
     {
-      $dates = $pdo->query("SELECT date_format(date_arrivee,'%Y/%m/%d %H:%i') AS new_date_arrivee,date_format(date_depart,'%Y/%m/%d %H:%i') AS new_date_depart,id_salle FROM `produit` WHERE id_salle = '$_POST[id_salle]'");
+      $dates = $pdo->query("SELECT id_produit,date_format(date_arrivee,'%Y/%m/%d %H:%i') AS new_date_arrivee,date_format(date_depart,'%Y/%m/%d %H:%i') AS new_date_depart,id_salle FROM `produit` WHERE id_salle = '$_POST[id_salle]'");
+      
           while ($res = $dates->fetch(PDO::FETCH_ASSOC)) 
-          {  
-              if($_POST['date_arrivee'] >= $res['new_date_arrivee'] && $_POST['date_arrivee'] <= $res['new_date_depart']) 
+          {
+              if ($res['id_produit'] != $_POST['id_produit']) 
               {
-                $error_date_arrivee = 'Salle déjà utilisée à cette date';
-                break;
-              }elseif($_POST['date_arrivee'] <= $res['new_date_arrivee'] && ($_POST['date_depart'] <= $res['new_date_depart'] && $_POST['date_depart'] >= $res['new_date_arrivee']))
-              {
-                $error_date_depart = 'Salle déjà utilisée à cette date';
-                break;
-              }elseif($_POST['date_arrivee'] <= $res['new_date_arrivee'] && $_POST['date_depart'] >= $res['new_date_depart']) 
-              {
-                $error_date_depart = 'Produit existant avec des dates compris entre les dates d\'arrivée et de départ';
-                $error_date_arrivee = 'Produit existant avec des dates compris entre les dates d\'arrivée et de départ';
-                break;
-              } elseif($_POST['date_arrivee'] >= $res['new_date_arrivee'] && $_POST['date_arrivee'] <= $res['new_date_depart'] && $_POST['date_depart'] >= $res['new_date_depart']) 
-              {
-                $error_date_arrivee = 'Salle déjà utilisée à cette date';
-                break;
-              } elseif($_POST['date_depart'] >= $res['new_date_arrivee'] && $_POST['date_depart'] <= $res['new_date_depart'])
-              {
-                $error_date_depart = 'Salle déjà utilisée à cette date';
-                break;
-              }else 
-              {
-                $edit_produit = $pdo->prepare("UPDATE produit SET date_arrivee = ?, date_depart = ?, id_salle = ?, id_promo = ?, prix = ? WHERE id_produit = ?");
-                $edit = $edit_produit->execute(array($_POST['date_arrivee'],$_POST['date_depart'],$_POST['id_salle'],$_POST['id_promo'],$_POST['prix'],$_GET['id']));
-                echo '<div class="alert alert-success " role="alert">Modification de la salle '.$_POST['id_produit'].' effectuée</div>';
-                break;
+                  if ($_POST['date_arrivee'] >= $res['new_date_arrivee'] && $_POST['date_arrivee'] <= $res['new_date_depart']) 
+                  {
+                      $error_date_arrivee = 'Salle déjà utilisée à cette date';
+                      break;
+                  } elseif ($_POST['date_arrivee'] <= $res['new_date_arrivee'] && ($_POST['date_depart'] <= $res['new_date_depart'] && $_POST['date_depart'] >= $res['new_date_arrivee'])) 
+                  {
+                      $error_date_depart = 'Salle déjà utilisée à cette date';
+                      break;
+                  } elseif ($_POST['date_arrivee'] <= $res['new_date_arrivee'] && $_POST['date_depart'] >= $res['new_date_depart']) 
+                  {
+                      $error_date_depart = 'Produit existant avec des dates compris entre les dates d\'arrivée et de départ';
+                      $error_date_arrivee = 'Produit existant avec des dates compris entre les dates d\'arrivée et de départ';
+                      break;
+                  } elseif ($_POST['date_arrivee'] >= $res['new_date_arrivee'] && $_POST['date_arrivee'] <= $res['new_date_depart'] && $_POST['date_depart'] >= $res['new_date_depart']) 
+                  {
+                      $error_date_arrivee = 'Salle déjà utilisée à cette date';
+                      break;
+                  } elseif ($_POST['date_depart'] >= $res['new_date_arrivee'] && $_POST['date_depart'] <= $res['new_date_depart']) 
+                  {
+                      $error_date_depart = 'Salle déjà utilisée à cette date';
+                      break;
+                  } else 
+                  {
+                      $edit_produit = $pdo->prepare("UPDATE produit SET date_arrivee = ?, date_depart = ?, id_salle = ?, id_promo = ?, prix = ? WHERE id_produit = ?");
+                      $edit = $edit_produit->execute(array($_POST['date_arrivee'],$_POST['date_depart'],$_POST['id_salle'],$_POST['id_promo'],$_POST['prix'],$_GET['id']));
+                      echo '<div class="alert alert-success " role="alert">Modification de la salle '.$_POST['id_produit'].' effectuée</div>';
+                      break;
+                  }
               }
           }
-          if ($dates->rowCount() == 0) {
+          
+          if ($dates->rowCount() == 0) 
+          {
             $edit_produit = $pdo->prepare("UPDATE produit SET date_arrivee = ?, date_depart = ?, id_salle = ?, id_promo = ?, prix = ? WHERE id_produit = ?");
             $edit = $edit_produit->execute(array($_POST['date_arrivee'],$_POST['date_depart'],$_POST['id_salle'],$_POST['id_promo'],$_POST['prix'],$_GET['id']));
             echo '<div class="alert alert-success " role="alert">Modification de la salle '.$_POST['id_produit'].' effectuée</div>';
@@ -214,7 +220,16 @@ if (isset($_GET['action']) && $_GET['action']=='affichage') {
                       </ul>
                     </div>
                   </th>
-                  <th scope="col">id_salle</th>
+                  <th scope="col">
+                    <div class="dropdown">
+                      <span class="dropdown-toggle" id="drop_salle" data-bs-toggle="dropdown" aria-expanded="false">id_salle
+                      </span>
+                      <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="drop_salle">
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=salle_asc">Trier par salle croissante</a></li>
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=salle_desc">Trier par salle décroissante</a></li>
+                      </ul>
+                    </div>
+                  </th>
                   <th scope="col">id_promo</th>
                   <th scope="col">
                     <div class="dropdown">
@@ -226,7 +241,15 @@ if (isset($_GET['action']) && $_GET['action']=='affichage') {
                       </ul>
                     </div>
                   </th>
-                  <th scope="col">État</th>
+                  <th scope="col">
+                    <div class="dropdown">
+                      <span class="dropdown-toggle" id="drop_etat" data-bs-toggle="dropdown" aria-expanded="false">État
+                      </span>
+                      <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="drop_etat">
+                        <li><a class="dropdown-item" href="/admin/gestion_produit.php?action=affichage&trie=etat_asc">Trier par état</a></li>
+                      </ul>
+                    </div>
+                  </th>
                   <th scope="col">Modifier</th>
                   <th scope="col">Supprimer</th>
                 </tr>
@@ -252,6 +275,15 @@ if(isset($_GET['trie']) && $_GET['trie'] == 'prix_asc')
 }elseif (isset($_GET['trie']) && $_GET['trie'] == 'date_d_desc')
 {
   $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by date_depart desc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'salle_asc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by id_salle asc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'salle_desc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by id_salle desc');
+}elseif (isset($_GET['trie']) && $_GET['trie'] == 'etat_asc')
+{
+  $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM produit ORDER by etat asc');
 }else
 {
   $resultat = $pdo->query('SELECT date_format(date_arrivee,"%d/%m/%Y %T") AS new_date_arrivee,date_format(date_depart,"%d/%m/%Y %T") AS new_date_depart,produit.* FROM  produit');
@@ -268,7 +300,7 @@ if(isset($_GET['trie']) && $_GET['trie'] == 'prix_asc')
         echo '<td class="align-middle">'.$datas['prix'].'</td>';
         echo '<td class="align-middle">'.$datas['etat'].'</td>';
         echo '<td class="align-middle"><a href="?action=edit&id='.$datas['id_produit'].'"><i class="fa fa-edit fa-2x"></i></a></td>';
-        echo '<td class="align-middle"><a href="?action=delete&id='.$datas['id_produit'].'"><i class="fa fa-trash fa-2x"></i></a></td>';
+        echo '<td class="align-middle"><a href="?action=delete&id='.$datas['id_produit'].'" Onclick="'."return(confirm('Êtes-vous sûr de vouloir supprimer ce produit?'))".'"><i class="fa fa-trash fa-2x"></i></a></td>';
         echo '</tr>';
     }
     ?>

@@ -1,7 +1,7 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php include_once("../inc/haut.inc.php");?>
 <?php include_once('../inc/menu.inc.php');?>
-<?php $commande = $pdo->query("SELECT commande.*, membre.* FROM commande INNER JOIN membre ON membre.id_membre = commande.id_membre INNER JOIN details_commande ON details_commande.id_commande = commande.id_commande INNER JOIN produit ON produit.id_produit = details_commande.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = $_GET[id_commande]");
+<?php $commande = $pdo->query("SELECT date_format(commande.date,'%d/%m/%Y') AS new_date_commande,commande.*, membre.* FROM commande INNER JOIN membre ON membre.id_membre = commande.id_membre INNER JOIN details_commande ON details_commande.id_commande = commande.id_commande INNER JOIN produit ON produit.id_produit = details_commande.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = $_GET[id_commande]");
  $data=$commande->fetch(PDO::FETCH_ASSOC);
     ?>
 <div class="conteneur">
@@ -14,7 +14,7 @@
       <dt>Facture N° :</dt>
       <dd><?php echo $data['id_commande'] ?></dd>
       <dt>Date de facturation :</dt>
-      <dd><?php echo $data['date'] ?></dd>
+      <dd><?php echo $data['new_date_commande'] ?></dd>
     </dl>
 </section>
 <section>
@@ -48,7 +48,7 @@
         <tbody>
         <?php
 $pdo->query("SET lc_time_names = 'fr_FR'");
-$resultat = $pdo->query("SELECT commande.*, membre.pseudo AS pseudo, date_format(produit.date_arrivee,'%d %b %Y %T') AS new_date_arrivee,date_format(produit.date_depart,'%d %b %Y %T') AS new_date_depart,produit.*, details_commande.*, salle.ville AS ville, salle.titre AS nom_salle, salle.adresse AS adresse, salle.cp AS cp FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]'");
+$resultat = $pdo->query("SELECT commande.*, membre.pseudo AS pseudo, date_format(produit.date_arrivee,'%d/%m/%Y à %kh%i') AS new_date_arrivee,date_format(produit.date_depart,'%d/%m/%Y à %kh%i') AS new_date_depart,produit.*, details_commande.*, salle.ville AS ville, salle.titre AS nom_salle, salle.adresse AS adresse, salle.cp AS cp FROM commande INNER JOIN membre ON membre.id_membre=commande.id_membre INNER JOIN details_commande ON commande.id_commande=details_commande.id_commande INNER JOIN produit ON details_commande.id_produit = produit.id_produit INNER JOIN salle ON salle.id_salle=produit.id_salle WHERE commande.id_commande = '$_GET[id_commande]'");
 $total = 0;
        while ($datas = $resultat->fetch(PDO::FETCH_ASSOC)) 
         {?>
