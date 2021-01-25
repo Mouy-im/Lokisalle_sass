@@ -1,5 +1,10 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php
+if (!internauteEstConnecte())
+{
+  header('location:../pages/connexion.php');
+  exit();
+}
 $newsletter=$pdo->query('SELECT * FROM newsletter');
 $membre_id = $_SESSION['membre']['id_membre'];
 $newsletter_info = "";

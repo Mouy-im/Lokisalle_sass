@@ -1,6 +1,6 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php  
- $erreur_pseudo = $erreur_mdp = $erreur_email = $erreur_mdp2= "";
+$erreur_pseudo = $erreur_mdp = $erreur_email = $erreur_mdp2= "";
 if($_POST)
 {
   $verif_caractere = preg_match("#^[a-zA-Z0-9._-]+$#",$_POST['pseudo']);
@@ -46,7 +46,7 @@ if($_POST)
         $_SESSION['membre']['adresse']=$_POST['adresse'];
         $_SESSION['membre']['statut']=0;
         header('Location: profil.php');
-        exit; 
+        exit();
     }   
   }
 }
@@ -60,52 +60,52 @@ if($_POST)
   <form action="" method="post" class="py-5">
     <div class="mb-3">
         <label for="pseudo" class="form-label">Pseudo*</label>
-        <input type="text" class="form-control" id="pseudo" name="pseudo" maxlength="20" placeholder="Votre pseudo" pattern="[a-zA-Z0-9-_.]{2,20}" title="caractères acceptés : a-zA-Z0-9-_." required="required">
+        <input type="text" class="form-control" id="pseudo" name="pseudo" maxlength="20" placeholder="Votre pseudo" pattern="[a-zA-Z0-9-_.]{2,20}" title="caractères acceptés : a-zA-Z0-9-_." value="<?php if (!empty($_POST['pseudo'])) echo $_POST['pseudo']?>" required="required">
         <p class="message_error"><?php echo $erreur_pseudo ?></p>
     </div>
     <div class="mb-3">
       <label for="mdp" class="form-label">Mot de passe*</label>
-      <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe" required="required">
+      <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe" required="required" value="<?php if (!empty($_POST['mdp'])) echo $_POST['mdp']?>">
       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
       <p class="message_error"><?php echo $erreur_mdp ?></p>
     </div>
     <div class="mb-3">
       <label for="mdp2" class="form-label">Confirmation du mot de passe*</label>
-      <input type="password" class="form-control" id="mdp2" name="mdp2" placeholder="Confirmer votre mot de passe" required="required">
+      <input type="password" class="form-control" id="mdp2" name="mdp2" placeholder="Confirmer votre mot de passe" required="required" value="<?php if (!empty($_POST['mdp2'])) echo $_POST['mdp2']?>">
       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password2"></span>
       <p class="message_error"><?php echo $erreur_mdp2 ?></p>
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Email*</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="adresse@email.com" required="required">
+      <input type="email" class="form-control" id="email" name="email" placeholder="adresse@email.com" value="<?php if (!empty($_POST['email'])) echo $_POST['email']?>" required="required">
       <p class="message_error"><?php echo $erreur_email ?></p>
     </div>
     <div class="mb-3">
       <select class="form-select" name="sexe">
         <option selected>-- Civilité --</option>
-        <option value="m">Homme</option>
-        <option value="f">Femme</option>
+        <option value="m" <?php if (isset($_POST['sexe']) && $_POST['sexe'] == "m") echo 'selected'?>>Homme</option>
+        <option value="f" <?php if (isset($_POST['sexe']) && $_POST['sexe'] == "f") echo 'selected'?>>Femme</option>
       </select>
     </div>
     <div class="mb-3">
         <label for="nom" class="form-label">Nom</label>
-        <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom">
+        <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" value="<?php if (!empty($_POST['nom'])) echo $_POST['nom']?>">
     </div>
     <div class="mb-3">
         <label for="prenom" class="form-label">Prénom</label>
-        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prenom">
+        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prenom" value="<?php if (!empty($_POST['prenom'])) echo $_POST['prenom']?>">
     </div>
     <div class="mb-3">
         <label for="adresse" class="form-label">Adresse</label>
-        <textarea type="text" id="adresse" class="form-control" name="adresse" placeholder="votre adresse" pattern="[a-zA-Z0-9-_.]{5,15}" title="caractères acceptés :  a-zA-Z0-9-_."></textarea>
+        <textarea type="text" id="adresse" class="form-control" name="adresse" placeholder="votre adresse" pattern="[a-zA-Z0-9-_.]{5,15}" title="caractères acceptés :  a-zA-Z0-9-_."><?php if (!empty($_POST['adresse'])) echo $_POST['adresse']?></textarea>
     </div>
    <div class="mb-3">
         <label for="cp" class="form-label">Code postal</label>
-        <input type="text" class="form-control" id="cp" name="cp" placeholder="code postal" pattern="[0-9]{5}" title="5 chiffres requis : 0-9">
+        <input type="text" class="form-control" id="cp" name="cp" placeholder="code postal" pattern="[0-9]{5}" title="5 chiffres requis : 0-9" value="<?php if (!empty($_POST['cp'])) echo $_POST['cp']?>">
     </div>
     <div class="mb-3">
         <label for="ville" class="form-label">Ville</label>
-        <input type="text" class="form-control" id="ville" name="ville" placeholder="votre ville" pattern="[a-zA-Z0-9-_.]{5,15}" title="caractères acceptés : a-zA-Z0-9-_.">
+        <input type="text" class="form-control" id="ville" name="ville" placeholder="votre ville" pattern="[a-zA-Z0-9-_.]{2,15}" title="caractères acceptés : a-zA-Z0-9-_." value="<?php if (!empty($_POST['ville'])) echo $_POST['ville']?>">
     </div>
     <i>*Champs requis</i><br>
   <button type="submit" class="btn btn-primary mt-2">S'inscrire</button>

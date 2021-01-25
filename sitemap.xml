@@ -93,7 +93,11 @@
     <priority>0.90</priority>
   </url>
    <url>
-    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/reservation.php</loc>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/salle.php</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.lokisalle.mouyim-gibassier.xyz/pages/salle_details.php</loc>
     <priority>0.90</priority>
   </url>
 </urlset>

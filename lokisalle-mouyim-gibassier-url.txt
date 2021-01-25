@@ -8,3 +8,6 @@ membre admin :
 pseudo : admin
 mdp : admin
 
+Vous avez la possibilité de finaliser votre commande !
+La fonction mail() marche, pensez à regardez dans les courriers indésirables.
+

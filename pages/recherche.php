@@ -85,7 +85,7 @@ $categories = $pdo->query("SELECT DISTINCT categorie FROM salle");
                 <!--Filtre par ville-->
                 Ville : <select class="form-select" name="ville">
                 <option value="" hidden>Choisir une ville</option> 
-                <option value="">Toutes les villes</option> 
+                <option value="all"<?php if (isset($_POST['ville']) && $_POST['ville'] == 'all'){echo ' selected';}?>>Toutes les villes</option> 
                 <?php
                 while ($ville = $villes->fetch(PDO::FETCH_ASSOC)) 
                 {
@@ -96,7 +96,7 @@ $categories = $pdo->query("SELECT DISTINCT categorie FROM salle");
                 <!--Filtre par categorie-->
                 Catégorie : <select class="form-select" name="categorie">
                 <option value="" hidden>Choisir une catégorie</option>
-                <option value="">Toutes les catégories</option> 
+                <option value="all"<?php if (isset($_POST['categorie']) && $_POST['categorie'] == 'all'){echo ' selected';}?>>Toutes les catégories</option> 
                 <?php
                 while ($cat = $categories->fetch(PDO::FETCH_ASSOC)) 
                 {
@@ -106,10 +106,10 @@ $categories = $pdo->query("SELECT DISTINCT categorie FROM salle");
                 </select><br>
                 <!--Filtre par date-->
                 <div class="mb-3">
-                    <label for="date_arrivee" class="form-label">Date d'arrivée :</label>
-                    <input type="text" id="date_arrivee_r" class="form-control" name="date_arrivee" placeholder="aaaa/mm/jj" value="<?php if (isset($_POST['date_arrivee'])) echo $_POST['date_arrivee'] ?>">
-                    <label for="date_depart" class="form-label">Date de départ :</label>
-                    <input type="text" id="date_depart_r" class="form-control" name="date_depart" placeholder="aaaa/mm/jj" value="<?php if (isset($_POST['date_depart'])) echo $_POST['date_depart'] ?>">
+                    <label for="date_arrivee_r" class="form-label">Date d'arrivée :</label>
+                    <input type="text" id="date_arrivee_r" class="form-control" name="date_arrivee" placeholder="jj/mm/aaaa" value="<?php if (isset($_POST['date_arrivee'])) echo $_POST['date_arrivee'] ?>">
+                    <label for="date_depart_r" class="form-label">Date de départ :</label>
+                    <input type="text" id="date_depart_r" class="form-control" name="date_depart" placeholder="jj/mm/aaaa" value="<?php if (isset($_POST['date_depart'])) echo $_POST['date_depart'] ?>">
                 </div>
                 <!--Filtre par prix-->
                 <div class="mb-3">
@@ -133,19 +133,35 @@ $categories = $pdo->query("SELECT DISTINCT categorie FROM salle");
             <?php
                 $query ="SELECT date_format(date_arrivee,'%d/%m/%Y') AS new_date_arrivee,date_format(date_arrivee,'%kh%i') AS heure_arrivee,date_format(date_depart,'%d/%m/%Y') AS new_date_depart,produit.*,date_format(date_depart,'%kh%i') AS heure_depart,salle.* FROM produit,salle WHERE produit.id_salle = salle.id_salle AND produit.etat = 1  AND produit.date_arrivee > NOW() "; 
                 if(!empty($_POST['ville'])){
-                    $query .= " AND salle.ville = '$_POST[ville]'";
-                }
-                if(!empty($_POST['categorie'])){
-                    $query .= " AND salle.categorie ='$_POST[categorie]'";
-                }
+                    if($_POST['ville'] == 'all')
+                    {
+                     $query .= "";
+                    }else
+                    {
+                      $query .= " AND salle.ville = '$_POST[ville]'";
+                    }
+                   }
+                   if(!empty($_POST['categorie'])){
+                     if($_POST['categorie'] == 'all')
+                     {
+                      $query .= "";
+                     }else
+                     {
+                       $query .= " AND salle.categorie ='$_POST[categorie]'";
+                     }  
+                   }
                 if(!empty($_POST['capacite'])){
                     $query .= " AND salle.capacite >='$_POST[capacite]'";
                 }
                 if(!empty($_POST['date_arrivee']) ){
-                    $query .= " AND produit.date_arrivee >= '$_POST[date_arrivee]'";
+                    $date_a = str_replace('/', '-',$_POST['date_arrivee'] );  
+                    $newDate_a = date("Y-m-d",strtotime($date_a));
+                    $query .= " AND produit.date_arrivee >= '$newDate_a'";
                 }
                 if(!empty($_POST['date_depart'])){
-                    $query .= " AND produit.date_depart <= '$_POST[date_depart]'";
+                    $date_d = str_replace('/', '-',$_POST['date_depart'] );  
+                    $newDate_d = date("Y-m-d",strtotime($date_d));
+                    $query .= " AND produit.date_depart <= '$newDate_d'";
                 }
                 if(!empty($_POST['prix_min'])){
                     $query .= " AND produit.prix >= '$_POST[prix_min]'";
@@ -153,6 +169,7 @@ $categories = $pdo->query("SELECT DISTINCT categorie FROM salle");
                 if(!empty($_POST['prix_max'])){
                     $query .= " AND produit.prix <= '$_POST[prix_max]'";
                 }
+                $query.= " ORDER BY produit.date_arrivee ASC";
                 $resultat = $pdo->query($query);
                 if(!empty($_POST)){ include('../inc/affichage_nb_ligne.inc.php');}
                 include('../inc/affichage_filtre.inc.php');

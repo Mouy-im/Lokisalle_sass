@@ -130,7 +130,7 @@ h2.card-title {
   content: "";
   position: absolute;
   left: 1px;
-  bottom: 65px;
+  bottom: 66px;
 }
 
 @media print {

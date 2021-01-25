@@ -17,13 +17,13 @@ $(function() {
         }
         //ajout du calendrier
         //recherche
-    $('#date_arrivee_r').datetimepicker({ minDate: 0, format: 'Y/m/d', timepicker: false });
+    $('#date_arrivee_r').datetimepicker({ minDate: 0, format: 'd/m/Y', timepicker: false });
     $('#date_depart_r').datetimepicker({
         onShow: function(ct) {
             this.setOptions({
                 minDate: $('#date_arrivee_r').val() ? $('#date_arrivee_r').val() : false,
                 value: $('#date_arrivee_r').val() ? $('#date_arrivee_r').val() : false,
-                format: 'Y/m/d',
+                format: 'd/m/Y',
                 timepicker: false
             })
         }

@@ -11,7 +11,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete')
 {   
    $statement = $pdo->prepare("DELETE FROM avis WHERE id_avis = ?");
    $resultat = $statement->execute(array($_GET['id']));
-   $message = '<div class="alert alert-success" role="alert">Suppression de l\'avis '.$_GET['id'].'</div>';
+   $message = '<div class="alert alert-danger text-center" role="alert">Suppression de l\'avis '.$_GET['id'].'</div>';
   }
 
 ?>

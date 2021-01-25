@@ -85,11 +85,11 @@ $resultat = $pdo->query("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
          <?php echo $contenu; ?>
         <div class="mb-3">
             <label for="pseudo" class="form-label">Pseudo</label>
-            <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Votre pseudo">
+            <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Votre pseudo" value="<?php if (!empty($_POST['pseudo'])) echo $_POST['pseudo']?>">
         </div>
         <div class="mb-3">
           <label for="mdp" class="form-label">Mot de passe</label>
-          <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe">
+          <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe" value="<?php if (!empty($_POST['mdp'])) echo $_POST['mdp']?>">
           <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
         </div>
         <div class="mb-3 form-check">

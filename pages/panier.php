@@ -1,5 +1,10 @@
 <?php include_once('../inc/init.inc.php');?>
 <?php
+if (!internauteEstConnecte())
+{
+  header('location:../pages/connexion.php');
+  exit();
+}
 //Paiement & validation de la commande
 if(isset($_POST['payer']))
 {

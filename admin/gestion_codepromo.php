@@ -18,7 +18,7 @@ if (!empty($_POST)) {
     if ($_GET['action']=='edit') {
         $statement = $pdo->prepare("UPDATE promotion SET code_promo = ?, reduction = ? WHERE id_promo = ?");
         $resultat = $statement->execute(array($_POST['code_promo'],$_POST['reduction'],$_GET['id']));
-        $message = '<div class="alert alert-success" role="alert">Modification du code promo '.$_POST['id_promo'].' effectué</div>';
+        $message = '<div class="alert alert-success text-center" role="alert">Modification du code promo '.$_POST['id_promo'].' effectué</div>';
      
     }
 }
@@ -28,7 +28,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete')
 {   
     $statement = $pdo->prepare("DELETE FROM promotion WHERE id_promo = ?");
     $resultat = $statement->execute(array($_GET['id']));
-    $message = '<div class="alert alert-danger" role="alert">Suppression du code promo '.$_GET['id'].' effectué</div>' ;
+    $message = '<div class="alert alert-danger text-center" role="alert">Suppression du code promo '.$_GET['id'].' effectué</div>' ;
 }
 
 ?>

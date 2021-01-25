@@ -57,7 +57,7 @@ if (!empty($_POST))
               {
                   $new_produit = $pdo->prepare("INSERT INTO produit(date_arrivee, date_depart, id_salle, id_promo, prix, etat)VALUES (?,?,?,?,?,?)");
                   $ajout = $new_produit->execute(array($_POST['date_arrivee'],$_POST['date_depart'],$_POST['id_salle'],$_POST['id_promo'],$_POST['prix'],1));
-                  echo '<div class="alert alert-success" role="alert">Ajout d\'un nouveau produit effectué</div>';
+                  echo '<div class="alert alert-success text-center" role="alert">Ajout d\'un nouveau produit effectué</div>';
                   break;
               }
           }
@@ -65,7 +65,7 @@ if (!empty($_POST))
           {
             $new_produit = $pdo->prepare("INSERT INTO produit(date_arrivee, date_depart, id_salle, id_promo, prix, etat)VALUES (?,?,?,?,?,?)");
             $ajout = $new_produit->execute(array($_POST['date_arrivee'],$_POST['date_depart'],$_POST['id_salle'],$_POST['id_promo'],$_POST['prix'],1));
-            echo '<div class="alert alert-success" role="alert">Ajout d\'un nouveau produit effectué</div>';
+            echo '<div class="alert alert-success text-center" role="alert">Ajout d\'un nouveau produit effectué</div>';
           }
       }
     }
@@ -122,7 +122,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete')
 {   
    $produit = $pdo->prepare("DELETE FROM produit WHERE id_produit = ?");
    $delete = $produit->execute(array($_GET['id']));
-   echo '<div class="alert alert-success" role="alert">Suppression du produit '.$_GET['id'].' effectué</div>' ;
+   echo '<div class="alert alert-danger text-center" role="alert">Suppression du produit '.$_GET['id'].' effectué</div>' ;
 }
 
 //Formulaire ajout ou modification d'une salle
